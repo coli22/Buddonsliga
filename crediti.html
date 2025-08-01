@@ -198,9 +198,16 @@
         if (A >= QA) {
           crediti = QA;
         } else {
-          // FORMULA CORRETTA: pagato meno della quotazione all’acquisto -> C = A + (QA-QB)
-          crediti = Math.max(1, A + (QA - QB));
-        }
+    // Pagato meno della quotazione all'acquisto → valuta rivalutazione o svalutazione
+    if (QA >= QB) {
+      // Rivalutazione → guadagni A + (QA - QB)
+      crediti = Math.max(1, A + (QA - QB));
+    } else {
+      // Svalutazione → guadagni A - (QB - QA)
+      crediti = Math.max(1, A - (QB - QA));
+    }
+  }
+}
       } else if (caso === "estero") {
         crediti = Math.max(Math.floor(A / 2), QA);
       } else if (caso === "morte") {
