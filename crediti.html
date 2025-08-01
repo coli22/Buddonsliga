@@ -84,7 +84,7 @@
     select, input[type=number] {
       width: 100%;
       font-size: 1em;
-      padding: 3px 2px;
+      padding: 3px 6px;
       margin-top: 4px;
       margin-bottom: 11px;
       border-radius: 3px;
@@ -131,20 +131,23 @@
       <ul>
         <li>Apri l’app Fantacalcio e vai nella scheda del calciatore.</li>
         <li>Per la <strong>quotazione al momento dell’acquisto</strong>, individua la giornata esatta guardando il giorno dell’asta oppure la data di ufficializzazione riportata nel gruppo <em>Mercato & Avvisi</em>.</li>
-        <li>Consulta il <strong>calendario della Serie A</strong>:<br>
-         – Se la data corrisponde a <u>un giorno in cui una giornata è ancora in corso</u>, devi prendere la quotazione riferita alla <b>giornata precedente</b> (perché i prezzi ancora non erano stati aggiornati!).<br>
-         <b>Esempio:</b> Se compri Messi il 23 settembre e la 3ª giornata è ancora in corso, considera il prezzo della 2ª giornata.</li>
+        <li>Consulta il <strong>calendario della Serie A</strong>:
+          <ul>
+            <li>Se la data corrisponde a <u>un giorno in cui una giornata è ancora in corso</u>, prendi la quotazione della <b>giornata precedente</b>.</li>
+            <li><b>Esempio:</b> compro Messi il 23 settembre e la 3ª giornata è in corso, devo guardare la quotazione della 2ª giornata.</li>
+          </ul>
+        </li>
       </ul>
     </div>
-    <form oninput="updateResult()" id="calcolatrice-crediti">
+    <form oninput="updateResult()" id="calcolatrice-crediti" novalidate>
       <label>Prezzo d’acquisto:
-        <input id="A" type="number" min="1" value="1" required>
+        <input id="A" type="number" min="1" required value="1" placeholder="Inserisci prezzo di acquisto" />
       </label>
       <label>Quotazione all’acquisto:
-        <input id="QB" type="number" min="1" value="1" required>
+        <input id="QB" type="number" min="1" required value="1" placeholder="Inserisci quotazione all'acquisto" />
       </label>
       <label>Quotazione attuale:
-        <input id="QA" type="number" min="0" value="1" required>
+        <input id="QA" type="number" min="0" required value="1" placeholder="Inserisci quotazione attuale" />
       </label>
       <label>Situazione:
         <select id="caso" onchange="updateResult()">
@@ -156,41 +159,54 @@
       </label>
       <label id="info-infortunio" style="display:none;">
         Mesi di stop confermati/diagnosi:
-        <input id="mesiStop" type="number" min="3" max="24" value="3">
-        <small>(Segui le fonti in ordine: Fantacalcio.it &gt; SOS Fanta &gt; FantaLab &gt; comunicato ufficiale squadra. Se trovi intervallo tipo "3-4", inserisci il <b>valore più basso</b>.)</small>
+        <input id="mesiStop" type="number" min="3" max="24" value="3" />
+        <small>(Segui le fonti in ordine: Fantacalcio.it &gt; SOS Fanta &gt; FantaLab &gt; comunicato ufficiale squadra. In caso di intervallo ("3-4 mesi"), inserisci il valore minimo.)</small>
       </label>
     </form>
     <div class="risultato" id="result"></div>
     <ul>
-      <li><b>Per gli infortuni:</b> Se emergono aggiornamenti più recenti sulla durata effettiva, considera la durata <b>effettiva</b> ai fini del calcolo (prendi il valore minimo se comunicato un intervallo).</li>
-      <li>Se venduto all'estero e pagato più o uguale al valore attuale, crediti = valore massimo tra metà prezzo pagato e quotazione attuale.</li>
-      <li>Per i decessi, crediti = massimo tra quotazione attuale e la formula standard; se ≥30 puoi sostituire subito il giocatore da svincolati.</li>
+      <li><b>Per gli infortuni:</b> considera la durata effettiva ai fini del calcolo, prendendo il valore minimo in caso di intervallo.</li>
+      <li>Se venduto all'estero e pagato più o uguale al valore attuale, i crediti sono il massimo tra metà prezzo pagato e quotazione attuale.</li>
+      <li>Per i decessi, i crediti sono il massimo tra quotazione attuale e formula standard; se ≥30 puoi sostituire subito il giocatore da svincolati.</li>
     </ul>
   </main>
   <script>
     function updateResult() {
-      var A = parseFloat(document.getElementById('A').value)||0;
-      var QB = parseFloat(document.getElementById('QB').value)||0;
-      var QA = parseFloat(document.getElementById('QA').value)||0;
+      // Recupera e converte i valori
+      var A = parseFloat(document.getElementById('A').value);
+      var QB = parseFloat(document.getElementById('QB').value);
+      var QA = parseFloat(document.getElementById('QA').value);
       var caso = document.getElementById('caso').value;
-      var mesiStop = parseFloat(document.getElementById('mesiStop') ? document.getElementById('mesiStop').value : '0') || 0;
+      var mesiStopEl = document.getElementById('mesiStop');
+      var mesiStop = mesiStopEl ? parseFloat(mesiStopEl.value) : 0;
 
-      // Mostra/nascondi campo mesi stop infortunio
+      // Controlla campi obbligatori e validi
+      if (isNaN(A) || isNaN(QB) || isNaN(QA) || (caso === "infortunio" && (isNaN(mesiStop) || mesiStop < 3))) {
+        document.getElementById('result').innerHTML = '<span style="color:#b82d0d;">Completa tutti i campi con valori validi!</span>';
+        // Mostra/nascondi campo mesi infortunio
+        document.getElementById('info-infortunio').style.display = (caso === "infortunio") ? "block" : "none";
+        return;
+      }
+
+      // Controlla visibilità mesi di stop
       document.getElementById('info-infortunio').style.display = (caso === "infortunio") ? "block" : "none";
 
       let crediti = 1;
       let extraMsg = "";
 
       if (caso === "normale") {
-        // Regola base: pagato più/uguale alla quotazione attuale
-        if (A >= QA) crediti = QA;
-        else crediti = Math.max(1, A + (QB - QA));
+        if (A >= QA) {
+          crediti = QA;
+        } else {
+          crediti = Math.max(1, A + (QB - QA));
+        }
       } else if (caso === "estero") {
         crediti = Math.max(Math.floor(A / 2), QA);
       } else if (caso === "morte") {
         crediti = Math.max(QA, A + (QB - QA));
-        if (crediti >= 30)
+        if (crediti >= 30) {
           extraMsg = "<br><b>Puoi subito prendere uno svincolato!</b>";
+        }
       } else if (caso === "infortunio") {
         if (mesiStop >= 3 && mesiStop <= 6) {
           crediti = Math.max(QA, Math.round(A * 0.5));
@@ -203,8 +219,11 @@
           extraMsg = "<br>(Infortunio inferiore a 3 mesi, si usa la regola normale)";
         }
       }
+
       document.getElementById('result').innerHTML = "Crediti guadagnati: <b>" + crediti + "</b>" + extraMsg;
     }
+
+    // Chiamata iniziale per mostrare il risultato da valori di default
     updateResult();
   </script>
 </body>
