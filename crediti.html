@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="it">
+<head><meta charset="UTF-8"><title>Calcolo Crediti – Buddonsliga</title></head>
+<body>
+  <nav>
+    <a href="index.html">Home</a> |
+    <a href="regolamento.html">Regolamento</a> |
+    <a href="calcolatrice.html">Calcolo Crediti</a> |
+    <a href="albo.html">Albo d'Oro</a> |
+    <a href="ranking.html">Ranking</a>
+  </nav>
+  <h1>Calcola i crediti guadagnati con uno svincolo</h1>
+  <form oninput="updateResult()">
+    <label>Prezzo d’acquisto: <input id="A" type="number" value="1"></label><br>
+    <label>Quotazione all’acquisto: <input id="QB" type="number" value="1"></label><br>
+    <label>Quotazione attuale: <input id="QA" type="number" value="1"></label><br>
+    <label>Scegli un caso:
+      <select id="caso" onchange="updateResult()">
+        <option value="normale">Normale</option>
+        <option value="estero">Venduto all’estero</option>
+        <option value="morte">Morte giocatore</option>
+      </select>
+    </label>
+  </form>
+  <p id="result"></p>
+  <script>
+    function updateResult() {
+      var A = parseInt(document.getElementById('A').value)||0;
+      var QB = parseInt(document.getElementById('QB').value)||0;
+      var QA = parseInt(document.getElementById('QA').value)||0;
+      var caso = document.getElementById('caso').value;
+      var crediti = 1;
+      if(caso == "normale") {
+        if(A >= QA) crediti = QA;
+        else crediti = Math.max(1, A+(QB-QA));
+      }
+      if(caso == "estero") {
+        crediti = Math.max(Math.floor(A/2), QA);
+      }
+      if(caso == "morte") {
+        crediti = Math.max(QA, A+(QB-QA));
+        if(crediti >= 30) {
+          document.getElementById('result').innerHTML = "Crediti: "+crediti+"<br>Puoi subito prendere uno svincolato!";
+          return;
+        }
+      }
+      document.getElementById('result').innerText = "Crediti: " + crediti;
+    }
+    updateResult();
+  </script>
+  <!-- Puoi aggiungere una sezione FAQ/manuale calcolo crediti -->
+</body>
+</html>
