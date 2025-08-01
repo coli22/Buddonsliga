@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <title>Ranking</title>
+  <title>Ranking Buddonsliga</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
@@ -11,13 +11,6 @@
       margin: 0;
       padding: 0;
       color: #222;
-    }
-    header {
-      background: linear-gradient(90deg, #0056b3 0%, #0099ff 100%);
-      color: #fff;
-      padding: 30px 10px 20px 10px;
-      text-align: center;
-      border-bottom: 2px solid #004080;
     }
     nav {
       background: #004080;
@@ -33,7 +26,6 @@
       padding: 12px 0;
       text-decoration: none;
       font-weight: 600;
-      letter-spacing: 0.05em;
       border-bottom: 2px solid transparent;
       transition: border-bottom 0.2s, color 0.2s;
       font-size: 18px;
@@ -43,19 +35,13 @@
       color: #ffdf00;
     }
     main {
-      max-width: 700px;
+      max-width: 820px;
       margin: 36px auto;
       background: #fff;
       border-radius: 12px;
       box-shadow: 0 4px 18px rgba(0,0,0,0.07);
-      padding: 32px 18px;
+      padding: 32px 12px;
       text-align: center;
-    }
-    .logo {
-      display: block;
-      margin: 0 auto 20px auto;
-      max-width: 120px;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
     }
     h1 {
       font-size: 2.1em;
@@ -63,19 +49,94 @@
       color: #294988;
       letter-spacing: 0.04em;
     }
-    h2 {
-      color: #0366d6;
-      margin-top: 24px;
+    .ranking-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1.06em;
+      margin: 40px 0 18px 0;
+      box-shadow: 0 2px 10px rgba(48,80,160,0.07);
+      border-radius: 8px;
+      overflow: hidden;
     }
-    p {
-      line-height: 1.6;
-      font-size: 1.13em;
-      margin-bottom: 22px;
+    .ranking-table th, .ranking-table td {
+      padding: 12px 8px;
+      text-align: center;
+      border: none;
     }
-    @media (max-width: 650px) {
-      nav a { margin: 0 10px; font-size: 16px; }
-      main { padding: 18px 5px; }
-      h1 { font-size: 1.3em; }
+    .ranking-table th {
+      background: linear-gradient(90deg,#0056b3 0%, #0099ff 100%);
+      color: #fff;
+      font-size: 1.12em;
+      letter-spacing: 0.03em;
+    }
+    /* Sfumatura sulle righe in base alla posizione */
+    .primo {
+      background: linear-gradient(90deg, #ffe27a 0%, #fff8de 100%);
+      font-weight: bold;
+      font-size: 1.16em;
+      color: #2d2600;
+    }
+    .secondo {
+      background: linear-gradient(90deg, #d4e8ff 0% , #f6fcff 100%);
+      font-weight: bold;
+      font-size: 1.09em;
+      color: #263048;
+    }
+    .terzo {
+      background: linear-gradient(90deg, #e3e3e3 0% , #f8f8f8 100%);
+      font-weight: bold;
+      color: #484b43;
+    }
+    .other {
+      background: #f8fafc;
+      color: #334258;
+    }
+    .ultima {
+      background: linear-gradient(90deg, #ffdede 0%, #faeded 100%);
+      color: #862020;
+    }
+    /* Colonna posizione in risalto */
+    .ranking-table td.posizione {
+      font-size: 1.10em;
+      font-weight: bold;
+      font-family: monospace, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    /* Responsive per tabelle */
+    @media (max-width: 720px) {
+      main { padding: 12px 2px; }
+      .ranking-table th, .ranking-table td { font-size: 0.95em; padding: 9px 2.5px; }
+    }
+    .download-section {
+      margin: 40px 0 18px 0;
+      font-size: 1.09em;
+    }
+    .download-btn {
+      display: inline-block;
+      background: linear-gradient(90deg, #0366d6 0%, #00b4fc 100%);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      border-radius: 6px;
+      padding: 12px 24px;
+      margin: 6px 0 0 0;
+      transition: background 0.15s, box-shadow 0.15s;
+      box-shadow: 0 2px 8px rgba(60,80,100,0.08);
+      border: none;
+      cursor: pointer;
+    }
+    .download-btn:hover {
+      background: linear-gradient(90deg, #00b4fc 10%, #0366d6 80%);
+      color: #fff1a3;
+      box-shadow: 0 4px 16px rgba(0,64,160,0.09);
+    }
+    .iframe-xls {
+      width: 99%;
+      height: 420px;
+      border: 1px solid #b0b8c0;
+      border-radius: 7px;
+      margin: 16px auto 0 auto;
+      background: #f4fcff;
+      display: block;
     }
   </style>
 </head>
@@ -87,13 +148,76 @@
     <a href="albo.html">Albo d'Oro</a> |
     <a href="ranking.html">Ranking</a>
   </nav>
-  <h1>Ranking Attuale</h1>
-  <table border="1">
-    <tr><th>Posizione</th><th>Squadra</th><th>Punti</th></tr>
-    <tr><td>1</td><td>Pippo FC</td><td>65</td></tr>
-    <tr><td>2</td><td>Pluto United</td><td>60</td></tr>
-  </table>
-  <h2>Dati grezzi</h2>
-  <a href="RANKING BUDDONSLIGA.xlsx" download>Clicca qui per scaricare il file Excel</a>
+  <main>
+    <h1>Ranking Attuale – Buddonsliga</h1>
+
+    <!-- Visualizzazione classifica -->
+    <table class="ranking-table">
+      <tr>
+        <th>Posizione</th>
+        <th>Squadra</th>
+        <th>Punti</th>
+      </tr>
+      <tr class="primo">
+        <td class="posizione">1</td>
+        <td>GLI ARGONAUTI</td>
+        <td>24,493.5</td>
+      </tr>
+      <tr class="secondo">
+        <td class="posizione">2</td>
+        <td>COLIMASTER</td>
+        <td>24,377</td>
+      </tr>
+      <tr class="terzo">
+        <td class="posizione">3</td>
+        <td>BANANA DREAM TEAM</td>
+        <td>24,191</td>
+      </tr>
+      <tr class="other">
+        <td class="posizione">4</td>
+        <td>SESTU FC</td>
+        <td>24,004</td>
+      </tr>
+      <tr class="other">
+        <td class="posizione">5</td>
+        <td>MONTE URPINU FC</td>
+        <td>23,976</td>
+      </tr>
+      <tr class="other">
+        <td class="posizione">6</td>
+        <td>BOMBER MOSCARDELLI</td>
+        <td>23,948.5</td>
+      </tr>
+      <tr class="other">
+        <td class="posizione">7</td>
+        <td>STRATIOTAI</td>
+        <td>23,819.5</td>
+      </tr>
+      <tr class="other">
+        <td class="posizione">8</td>
+        <td>PESCARA MANZIA</td>
+        <td>23,467.5</td>
+      </tr>
+      <tr class="other">
+        <td class="posizione">9</td>
+        <td>BENEVENGO FC</td>
+        <td>23,382</td>
+      </tr>
+      <tr class="ultima">
+        <td class="posizione">10</td>
+        <td>JESUS FC</td>
+        <td>22,431.5</td>
+      </tr>
+    </table>
+
+    <h2>Dati grezzi del ranking</h2>
+    <div class="download-section">
+      <a href="RANKING%20BUDDONSLIGA.xlsx" class="download-btn" download>
+        Scarica il file Excel
+      </a> oppure <b>visualizza qui sotto:</b>
+    </div>
+    <iframe class="iframe-xls" src="https://view.officeapps.live.com/op/embed.aspx?src=URL_DEL_TUO_FILE_XLS_ONLINE"></iframe>
+    <p style="color:#627183;font-size:0.99em;">Se la preview non si carica, puoi sempre scaricare il file sopra e aprirlo con Excel o Sheets.</p>
+  </main>
 </body>
 </html>
