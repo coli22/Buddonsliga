@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <title>Albo d'oro</title>
+  <title>Albo d'Oro</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
@@ -11,13 +11,6 @@
       margin: 0;
       padding: 0;
       color: #222;
-    }
-    header {
-      background: linear-gradient(90deg, #0056b3 0%, #0099ff 100%);
-      color: #fff;
-      padding: 30px 10px 20px 10px;
-      text-align: center;
-      border-bottom: 2px solid #004080;
     }
     nav {
       background: #004080;
@@ -33,7 +26,6 @@
       padding: 12px 0;
       text-decoration: none;
       font-weight: 600;
-      letter-spacing: 0.05em;
       border-bottom: 2px solid transparent;
       transition: border-bottom 0.2s, color 0.2s;
       font-size: 18px;
@@ -43,19 +35,13 @@
       color: #ffdf00;
     }
     main {
-      max-width: 700px;
+      max-width: 820px;
       margin: 36px auto;
       background: #fff;
       border-radius: 12px;
       box-shadow: 0 4px 18px rgba(0,0,0,0.07);
-      padding: 32px 18px;
+      padding: 32px 12px;
       text-align: center;
-    }
-    .logo {
-      display: block;
-      margin: 0 auto 20px auto;
-      max-width: 120px;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
     }
     h1 {
       font-size: 2.1em;
@@ -63,19 +49,61 @@
       color: #294988;
       letter-spacing: 0.04em;
     }
-    h2 {
-      color: #0366d6;
-      margin-top: 24px;
+    .sortable {
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.2s;
     }
-    p {
-      line-height: 1.6;
-      font-size: 1.13em;
-      margin-bottom: 22px;
+    .sortable:hover, .sortable.sorted {
+      color: #ffa800;
+      text-decoration: underline;
     }
-    @media (max-width: 650px) {
-      nav a { margin: 0 10px; font-size: 16px; }
-      main { padding: 18px 5px; }
-      h1 { font-size: 1.3em; }
+    .doro-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1.09em;
+      margin: 38px 0 16px 0;
+      box-shadow: 0 2px 10px rgba(48,80,160,0.07);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .doro-table th, .doro-table td {
+      padding: 12px 8px;
+      text-align: center;
+      border: none;
+    }
+    .doro-table th {
+      background: linear-gradient(90deg,#0056b3 0%, #0099ff 100%);
+      color: #fff;
+      font-size: 1.12em;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .doro-table tbody tr:nth-child(odd) {
+      background: #f8fafc;
+    }
+    .doro-table tbody tr:nth-child(even) {
+      background: #eef5fd;
+    }
+    @media (max-width: 700px) {
+      nav a { margin: 0 7px; font-size: 15px; }
+      main { padding: 11px 2px; }
+      .doro-table th, .doro-table td { padding: 6px 2px; font-size: 0.96em; }
+    }
+    .icona-trofeo {
+      font-size: 1.15em;
+      vertical-align: text-bottom;
+    }
+    .sumcell {
+      font-weight: bold;
+      color: #035b66;
+    }
+    .smallnote {
+      color: #456896; 
+      font-size:0.98em;
+      margin-top:1.5em;
     }
   </style>
 </head>
@@ -87,12 +115,100 @@
     <a href="albo.html">Albo d'Oro</a> |
     <a href="ranking.html">Ranking</a>
   </nav>
-  <h1>Albo d'Oro</h1>
-  <table border="1">
-    <tr><th>Utente</th><th>Scudetti</th><th>Coppe Italia</th><th>MVP</th></tr>
-    <tr><td>Pippo</td><td>3</td><td>1</td><td>2</td></tr>
-    <tr><td>Pluto</td><td>2</td><td>4</td><td>1</td></tr>
-    <!-- Aggiungi altre righe -->
-  </table>
+  <main>
+    <h1>Albo d'Oro Buddonsliga</h1>
+    <table class="doro-table" id="tabellaAlbo">
+      <thead>
+        <tr>
+          <th class="sortable" data-col="team">Squadra</th>
+          <th class="sortable" data-col="buddonsliga">
+            <span class="icona-trofeo">🏆</span> Buddonsliga
+          </th>
+          <th class="sortable" data-col="buddonscup">
+            <span class="icona-trofeo">🥇</span> Buddonscup
+          </th>
+          <th class="sortable" data-col="mvp">
+            <span class="icona-trofeo">🎖️</span> MVP
+          </th>
+          <th class="sortable" data-col="somma">Tot. Trofei</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Tabella generata JS -->
+      </tbody>
+    </table>
+    <div class="smallnote">
+      <span class="icona-trofeo">🏆</span> Buddonsliga
+      <span class="icona-trofeo" style="margin-left:15px;">🥇</span> Buddonscup
+      <span class="icona-trofeo" style="margin-left:15px;">🎖️</span> MVP
+    </div>
+  </main>
+  <script>
+    // Modifica qui i dati delle squadre!
+    const data = [
+      {team:"GLI ARGONAUTI", buddonsliga:2, buddonscup:1, mvp:0},
+      {team:"COLIMASTER", buddonsliga:0, buddonscup:2, mvp:0},
+      {team:"BANANA DREAM TEAM", buddonsliga:0, buddonscup:1, mvp:1},
+      {team:"BOMBER MOSCARDELLI", buddonsliga:2, buddonscup:1, mvp:0},
+      {team:"SESTU FC", buddonsliga:0, buddonscup:1, mvp:3},
+      {team:"STRATIOTAI", buddonsliga:2, buddonscup:0, mvp:0},
+      {team:"PESCARA MANZIA", buddonsliga:0, buddonscup:1, mvp:0},
+      {team:"MONTE URPINU FC", buddonsliga:2, buddonscup:1, mvp:2},
+      {team:"BENEVENGO FC", buddonsliga:0, buddonscup:0, mvp:0},
+      {team:"JESUS FC", buddonsliga:0, buddonscup:0, mvp:2}
+    ];
+
+    // Funzione per rendering della tabella
+    function renderTable(dataArr) {
+      const tbodyEl = document.querySelector("#tabellaAlbo tbody");
+      tbodyEl.innerHTML = ""; // Pulisci
+
+      for (const d of dataArr) {
+        const somma = d.buddonsliga + d.buddonscup + d.mvp;
+        tbodyEl.innerHTML += `<tr>
+          <td>${d.team}</td>
+          <td>${d.buddonsliga}</td>
+          <td>${d.buddonscup}</td>
+          <td>${d.mvp}</td>
+          <td class="sumcell">${somma}</td>
+        </tr>`;
+      }
+    }
+
+    // Ordinamento tabella
+    let currentSort = {col: "somma", asc: false};
+    function sortData(col, asc) {
+      data.sort((a, b) => {
+        if(col === "team") {
+          return asc 
+            ? a.team.localeCompare(b.team)
+            : b.team.localeCompare(a.team);
+        } else {
+          return asc ? a[col]-b[col] : b[col]-a[col];
+        }
+      });
+      renderTable(data);
+      document.querySelectorAll(".sortable").forEach(th=>th.classList.remove("sorted"));
+      const th = document.querySelector(`[data-col="${col}"]`);
+      if (th) th.classList.add("sorted");
+    }
+
+    // Handler click intestazione
+    document.addEventListener("DOMContentLoaded", ()=>{
+      renderTable(data);
+      sortData("somma", false); // Default: totale decrescente
+
+      document.querySelectorAll(".sortable").forEach(th=>{
+        th.addEventListener("click", function(){
+          const col = this.getAttribute("data-col");
+          let asc = true;
+          if (currentSort.col===col) asc = !currentSort.asc;
+          else asc = ["team"].includes(col); // Ordine alfabetico di default per team
+          currentSort = {col, asc};
+          sortData(col, asc);
+        });
+      });
+    });
+  </script>
 </body>
 </html>
