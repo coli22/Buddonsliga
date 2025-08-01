@@ -69,7 +69,6 @@
       font-size: 1.12em;
       letter-spacing: 0.03em;
     }
-    /* Sfumatura sulle righe in base alla posizione */
     .primo {
       background: linear-gradient(90deg, #ffe27a 0%, #fff8de 100%);
       font-weight: bold;
@@ -95,13 +94,11 @@
       background: linear-gradient(90deg, #ffdede 0%, #faeded 100%);
       color: #862020;
     }
-    /* Colonna posizione in risalto */
     .ranking-table td.posizione {
       font-size: 1.10em;
       font-weight: bold;
       font-family: monospace, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    /* Responsive per tabelle */
     @media (max-width: 720px) {
       main { padding: 12px 2px; }
       .ranking-table th, .ranking-table td { font-size: 0.95em; padding: 9px 2.5px; }
@@ -212,12 +209,17 @@
 
     <h2>Dati grezzi del ranking</h2>
     <div class="download-section">
-      <a href="RANKING%20BUDDONSLIGA.xlsx" class="download-btn" download>
+      <a href="https://raw.githubusercontent.com/col122/Buddonsliga/main/RANKING%20BUDDONSLIGA.xlsx"
+         class="download-btn" download>
         Scarica il file Excel
       </a> oppure <b>visualizza qui sotto:</b>
     </div>
-    <iframe class="iframe-xls" src="https://view.officeapps.live.com/op/embed.aspx?src=URL_DEL_TUO_FILE_XLS_ONLINE"></iframe>
-    <p style="color:#627183;font-size:0.99em;">Se la preview non si carica, puoi sempre scaricare il file sopra e aprirlo con Excel o Sheets.</p>
+    <iframe class="iframe-xls"
+        src="https://view.officeapps.live.com/op/embed.aspx?src=https://raw.githubusercontent.com/col122/Buddonsliga/main/RANKING%20BUDDONSLIGA.xlsx">
+    </iframe>
+    <p style="color:#627183;font-size:0.99em;">
+      Se la preview non si carica, puoi sempre scaricare il file sopra e aprirlo con Excel o Sheets.
+    </p>
   </main>
 </body>
 </html>
