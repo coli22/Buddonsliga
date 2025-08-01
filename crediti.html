@@ -1,6 +1,84 @@
 <!DOCTYPE html>
 <html lang="it">
-<head><meta charset="UTF-8"><title>Calcolo Crediti – Buddonsliga</title></head>
+<head>
+  <meta charset="UTF-8">
+  <title>Calcolo crediti</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f7fafc;
+      margin: 0;
+      padding: 0;
+      color: #222;
+    }
+    header {
+      background: linear-gradient(90deg, #0056b3 0%, #0099ff 100%);
+      color: #fff;
+      padding: 30px 10px 20px 10px;
+      text-align: center;
+      border-bottom: 2px solid #004080;
+    }
+    nav {
+      background: #004080;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+    }
+    nav a {
+      color: #fff;
+      margin: 0 18px;
+      padding: 12px 0;
+      text-decoration: none;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      border-bottom: 2px solid transparent;
+      transition: border-bottom 0.2s, color 0.2s;
+      font-size: 18px;
+    }
+    nav a:hover, nav a:focus {
+      border-bottom: 2px solid #ffdf00;
+      color: #ffdf00;
+    }
+    main {
+      max-width: 700px;
+      margin: 36px auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+      padding: 32px 18px;
+      text-align: center;
+    }
+    .logo {
+      display: block;
+      margin: 0 auto 20px auto;
+      max-width: 120px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    }
+    h1 {
+      font-size: 2.1em;
+      margin-bottom: 12px;
+      color: #294988;
+      letter-spacing: 0.04em;
+    }
+    h2 {
+      color: #0366d6;
+      margin-top: 24px;
+    }
+    p {
+      line-height: 1.6;
+      font-size: 1.13em;
+      margin-bottom: 22px;
+    }
+    @media (max-width: 650px) {
+      nav a { margin: 0 10px; font-size: 16px; }
+      main { padding: 18px 5px; }
+      h1 { font-size: 1.3em; }
+    }
+  </style>
+</head>
 <body>
   <nav>
     <a href="index.html">Home</a> |
