@@ -36,83 +36,101 @@
     }
     main {
       max-width: 700px;
-      margin: 36px auto;
+      margin: 28px auto 24px auto;
       background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.07);
-      padding: 32px 18px;
+      border-radius: 13px;
+      box-shadow: 0 3px 16px rgba(0,0,0,0.08);
+      padding: 18px 10px 30px 10px;
       text-align: center;
     }
     h1 {
-      font-size: 2.1em;
-      margin-bottom: 12px;
+      font-size: 2em;
+      margin-bottom: 16px;
       color: #294988;
       letter-spacing: 0.04em;
     }
-    h2 {
-      color: #0366d6;
-      margin-top: 20px;
-    }
     .istruzioni {
-      background: #f6fbe6;
-      border: 1px solid #b7de74;
-      color: #294988;
-      padding: 18px;
-      margin-bottom: 35px;
+      background: #fcfdd7;
+      border: 1.5px solid #e4d400;
+      color: #775000;
+      font-weight: 500;
+      padding: 20px 16px 13px 16px;
+      margin: 0 auto 30px auto;
+      font-size: 1.08em;
       border-radius: 8px;
-      font-size: 1.13em;
       text-align: left;
+      box-shadow: 0 1.5px 6px rgba(240,200,40,0.08);
       max-width: 520px;
-      margin-left: auto;
-      margin-right: auto;
+    }
+    .istruzioni strong, .istruzioni ul {
+      color: #294988;
+      margin-bottom: 6px;
     }
     form {
-      background: #f0f4fb;
+      background: #f4f8ff;
       border: 1px solid #b7c4e4;
       border-radius: 10px;
-      max-width: 340px;
-      margin: 0 auto 34px auto;
-      padding: 24px 18px;
+      max-width: 350px;
+      margin: 0 auto 24px auto;
+      padding: 26px 11px 14px 11px;
       text-align: left;
-      font-size: 1.08em;
+      font-size: 1.09em;
+      box-shadow: 0 1.5px 6px rgba(40,90,250,0.08);
     }
     label {
       display: block;
-      margin-bottom: 12px;
+      margin-bottom: 15px;
       font-weight: 500;
     }
     select, input[type=number] {
       width: 100%;
       font-size: 1em;
-      padding: 3px 6px;
-      margin-top: 4px;
-      margin-bottom: 11px;
+      padding: 6px 7px;
+      margin-top: 5px;
+      margin-bottom: 2px;
       border-radius: 3px;
       border: 1px solid #c0ccee;
       box-sizing: border-box;
     }
     .risultato {
-      font-size: 1.18em;
-      margin: 24px 0 0 0;
-      background: #fdf5bf;
-      border: 1px solid #ffe066;
-      border-radius: 7px;
-      display: inline-block;
-      padding: 14px 22px;
-      font-weight: bold;
+      font-size: 1.24em;
+      margin: 24px auto 0 auto;
+      background: linear-gradient(90deg,#fffde7 40%,#fff7b3 100%);
+      border: 2px solid #ffe066;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
       color: #715600;
+      min-height: 52px;
+      min-width: 65vw;
+      max-width: 380px;
+      box-shadow: 0 2px 6px rgba(220,180,0,0.06);
+      text-align: center;
+      word-break: break-word;
+      padding: 18px 5vw;
+      transition: background 0.2s;
     }
     ul {
       text-align: left;
-      margin: 18px auto;
-      max-width: 510px;
+      margin: 19px auto 10px auto;
+      max-width: 520px;
       color: #244528;
+      font-size: 1em;
+      padding-left: 21px;
+      line-height:1.45;
     }
     @media (max-width: 650px) {
       nav a { margin: 0 7px; font-size: 15px; }
-      main { padding: 16px 2px; }
-      form { max-width: 98%; padding: 13px 3px; }
-      .istruzioni, ul { font-size: 0.98em;}
+      main { padding:6px 1vw 19px 1vw; margin: 15px auto 8px auto; }
+      h1 { font-size: 1.2em; }
+      form { max-width: 98vw; padding: 10px 4vw; }
+      .istruzioni, ul { font-size: 0.99em;}
+      .risultato { font-size: 1.13em; min-width: 88vw; max-width:98vw; padding: 14px 2vw;}
+    }
+    @media (max-width: 400px) {
+      .risultato{font-size:0.99em;}
     }
   </style>
 </head>
@@ -129,25 +147,21 @@
     <div class="istruzioni">
       <strong>Come trovare la quotazione attuale del calciatore:</strong>
       <ul>
-        <li>Apri l’app Fantacalcio e vai nella scheda del calciatore.</li>
-        <li>Per la <strong>quotazione al momento dell’acquisto</strong>, individua la giornata esatta guardando il giorno dell’asta oppure la data di ufficializzazione riportata nel gruppo <em>Mercato & Avvisi</em>.</li>
-        <li>Consulta il <strong>calendario della Serie A</strong>:
-          <ul>
-            <li>Se la data corrisponde a <u>un giorno in cui una giornata è ancora in corso</u>, prendi la quotazione della <b>giornata precedente</b>.</li>
-            <li><b>Esempio:</b> compro Messi il 23 settembre e la 3ª giornata è in corso, devo guardare la quotazione della 2ª giornata.</li>
-          </ul>
-        </li>
+        <li>Apri l’app Fantacalcio e cerca il calciatore desiderato.</li>
+        <li>Per la <strong>quotazione all'acquisto</strong>, considera il giorno di asta <b>o</b> la data ufficiale del trasferimento (presente in “Mercato & Avvisi”).</li>
+        <li>Confronta la data con il calendario della Serie A: se il giorno è “durante” una giornata di campionato <b>[G]</b>, usa la quotazione della giornata <b>precedente</b>.</li>
+        <li><b>Esempio pratico:</b> se compri Messi il 23/09 durante la 3ª giornata, prendi il prezzo della 2ª giornata.</li>
       </ul>
     </div>
-    <form oninput="updateResult()" id="calcolatrice-crediti" novalidate>
+    <form oninput="updateResult()" id="calcolatrice-crediti" novalidate autocomplete="off">
       <label>Prezzo d’acquisto:
-        <input id="A" type="number" min="1" required value="1" placeholder="Inserisci prezzo di acquisto" />
+        <input id="A" type="number" min="1" required value="1" placeholder="Prezzo pagato per il giocatore" />
       </label>
       <label>Quotazione all’acquisto:
-        <input id="QB" type="number" min="1" required value="1" placeholder="Inserisci quotazione all'acquisto" />
+        <input id="QB" type="number" min="1" required value="1" placeholder="Prezzo ufficiale all'acquisto" />
       </label>
       <label>Quotazione attuale:
-        <input id="QA" type="number" min="0" required value="1" placeholder="Inserisci quotazione attuale" />
+        <input id="QA" type="number" min="0" required value="1" placeholder="Quota oggi" />
       </label>
       <label>Situazione:
         <select id="caso" onchange="updateResult()">
@@ -160,19 +174,19 @@
       <label id="info-infortunio" style="display:none;">
         Mesi di stop confermati/diagnosi:
         <input id="mesiStop" type="number" min="3" max="24" value="3" />
-        <small>(Segui le fonti in ordine: Fantacalcio.it &gt; SOS Fanta &gt; FantaLab &gt; comunicato ufficiale squadra. In caso di intervallo ("3-4 mesi"), inserisci il valore minimo.)</small>
+        <small>(Segui prima Fantacalcio.it, poi SOS Fanta, poi FantaLab, poi comunicato squadra. Se è un intervallo "3-4", metti 3.)</small>
       </label>
     </form>
     <div class="risultato" id="result"></div>
     <ul>
-      <li><b>Per gli infortuni:</b> considera la durata effettiva ai fini del calcolo, prendendo il valore minimo in caso di intervallo.</li>
-      <li>Se venduto all'estero e pagato più o uguale al valore attuale, i crediti sono il massimo tra metà prezzo pagato e quotazione attuale.</li>
-      <li>Per i decessi, i crediti sono il massimo tra quotazione attuale e formula standard; se ≥30 puoi sostituire subito il giocatore da svincolati.</li>
+      <li><b>Per infortuni:</b> usa la durata effettiva appena nota, e se l'intervallo è "3-4 mesi" considera <b>minimo</b> (qui: 3).</li>
+      <li>Svincolando per vendita all'estero: massimo tra metà prezzo pagato e quotazione attuale.</li>
+      <li>Decesso: massimo tra quotazione attuale e formula svincolo; se crediti ≥ 30 puoi acquistare subito uno svincolato.</li>
+      <li>Svalutazione/rivalutazione: puoi guadagnare o perdere crediti rispetto all’asta - vedi calcolatrice qui sopra.</li>
     </ul>
   </main>
   <script>
     function updateResult() {
-      // Recupera e converte i valori
       var A = parseFloat(document.getElementById('A').value);
       var QB = parseFloat(document.getElementById('QB').value);
       var QA = parseFloat(document.getElementById('QA').value);
@@ -180,15 +194,12 @@
       var mesiStopEl = document.getElementById('mesiStop');
       var mesiStop = mesiStopEl ? parseFloat(mesiStopEl.value) : 0;
 
-      // Controlla campi obbligatori e validi
+      // Validazione campi
       if (isNaN(A) || isNaN(QB) || isNaN(QA) || (caso === "infortunio" && (isNaN(mesiStop) || mesiStop < 3))) {
         document.getElementById('result').innerHTML = '<span style="color:#b82d0d;">Completa tutti i campi con valori validi!</span>';
-        // Mostra/nascondi campo mesi infortunio
         document.getElementById('info-infortunio').style.display = (caso === "infortunio") ? "block" : "none";
         return;
       }
-
-      // Controlla visibilità mesi di stop
       document.getElementById('info-infortunio').style.display = (caso === "infortunio") ? "block" : "none";
 
       let crediti = 1;
@@ -198,20 +209,17 @@
         if (A >= QA) {
           crediti = QA;
         } else {
-    // Pagato meno della quotazione all'acquisto → valuta rivalutazione o svalutazione
-    if (QA >= QB) {
-      // Rivalutazione → guadagni A + (QA - QB)
-      crediti = Math.max(1, A + (QA - QB));
-    } else {
-      // Svalutazione → guadagni A - (QB - QA)
-      crediti = Math.max(1, A - (QB - QA));
-    }
-  }
-}
+          // Caso specifico: rivalutazione/svalutazione in base a QA vs QB
+          if (QA >= QB) {
+            crediti = Math.max(1, A + (QA - QB));
+          } else {
+            crediti = Math.max(1, A - (QB - QA));
+          }
+        }
       } else if (caso === "estero") {
         crediti = Math.max(Math.floor(A / 2), QA);
       } else if (caso === "morte") {
-        crediti = Math.max(QA, A + (QA - QB)); // Modifica ANCHE QUI per coerenza
+        crediti = Math.max(QA, A + (QA - QB));
         if (crediti >= 30) {
           extraMsg = "<br><b>Puoi subito prendere uno svincolato!</b>";
         }
@@ -227,11 +235,9 @@
           extraMsg = "<br>(Infortunio inferiore a 3 mesi, si usa la regola normale)";
         }
       }
-
       document.getElementById('result').innerHTML = "Crediti guadagnati: <b>" + crediti + "</b>" + extraMsg;
     }
 
-    // Chiamata iniziale per mostrare il risultato da valori di default
     updateResult();
   </script>
 </body>
