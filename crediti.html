@@ -198,12 +198,13 @@
         if (A >= QA) {
           crediti = QA;
         } else {
-          crediti = Math.max(1, A + (QB - QA));
+          // FORMULA CORRETTA: pagato meno della quotazione all’acquisto -> C = A + (QA-QB)
+          crediti = Math.max(1, A + (QA - QB));
         }
       } else if (caso === "estero") {
         crediti = Math.max(Math.floor(A / 2), QA);
       } else if (caso === "morte") {
-        crediti = Math.max(QA, A + (QB - QA));
+        crediti = Math.max(QA, A + (QA - QB)); // Modifica ANCHE QUI per coerenza
         if (crediti >= 30) {
           extraMsg = "<br><b>Puoi subito prendere uno svincolato!</b>";
         }
