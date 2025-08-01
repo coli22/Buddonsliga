@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <title>Calcolo crediti</title>
+  <title>Calcolo Crediti</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
@@ -11,13 +11,6 @@
       margin: 0;
       padding: 0;
       color: #222;
-    }
-    header {
-      background: linear-gradient(90deg, #0056b3 0%, #0099ff 100%);
-      color: #fff;
-      padding: 30px 10px 20px 10px;
-      text-align: center;
-      border-bottom: 2px solid #004080;
     }
     nav {
       background: #004080;
@@ -33,7 +26,6 @@
       padding: 12px 0;
       text-decoration: none;
       font-weight: 600;
-      letter-spacing: 0.05em;
       border-bottom: 2px solid transparent;
       transition: border-bottom 0.2s, color 0.2s;
       font-size: 18px;
@@ -51,12 +43,6 @@
       padding: 32px 18px;
       text-align: center;
     }
-    .logo {
-      display: block;
-      margin: 0 auto 20px auto;
-      max-width: 120px;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-    }
     h1 {
       font-size: 2.1em;
       margin-bottom: 12px;
@@ -65,17 +51,68 @@
     }
     h2 {
       color: #0366d6;
-      margin-top: 24px;
+      margin-top: 20px;
     }
-    p {
-      line-height: 1.6;
+    .istruzioni {
+      background: #f6fbe6;
+      border: 1px solid #b7de74;
+      color: #294988;
+      padding: 18px;
+      margin-bottom: 35px;
+      border-radius: 8px;
       font-size: 1.13em;
-      margin-bottom: 22px;
+      text-align: left;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    form {
+      background: #f0f4fb;
+      border: 1px solid #b7c4e4;
+      border-radius: 10px;
+      max-width: 340px;
+      margin: 0 auto 34px auto;
+      padding: 24px 18px;
+      text-align: left;
+      font-size: 1.08em;
+    }
+    label {
+      display: block;
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+    select, input[type=number] {
+      width: 100%;
+      font-size: 1em;
+      padding: 3px 2px;
+      margin-top: 4px;
+      margin-bottom: 11px;
+      border-radius: 3px;
+      border: 1px solid #c0ccee;
+      box-sizing: border-box;
+    }
+    .risultato {
+      font-size: 1.18em;
+      margin: 24px 0 0 0;
+      background: #fdf5bf;
+      border: 1px solid #ffe066;
+      border-radius: 7px;
+      display: inline-block;
+      padding: 14px 22px;
+      font-weight: bold;
+      color: #715600;
+    }
+    ul {
+      text-align: left;
+      margin: 18px auto;
+      max-width: 510px;
+      color: #244528;
     }
     @media (max-width: 650px) {
-      nav a { margin: 0 10px; font-size: 16px; }
-      main { padding: 18px 5px; }
-      h1 { font-size: 1.3em; }
+      nav a { margin: 0 7px; font-size: 15px; }
+      main { padding: 16px 2px; }
+      form { max-width: 98%; padding: 13px 3px; }
+      .istruzioni, ul { font-size: 0.98em;}
     }
   </style>
 </head>
@@ -87,45 +124,88 @@
     <a href="albo.html">Albo d'Oro</a> |
     <a href="ranking.html">Ranking</a>
   </nav>
-  <h1>Calcola i crediti guadagnati con uno svincolo</h1>
-  <form oninput="updateResult()">
-    <label>Prezzo d’acquisto: <input id="A" type="number" value="1"></label><br>
-    <label>Quotazione all’acquisto: <input id="QB" type="number" value="1"></label><br>
-    <label>Quotazione attuale: <input id="QA" type="number" value="1"></label><br>
-    <label>Scegli un caso:
-      <select id="caso" onchange="updateResult()">
-        <option value="normale">Normale</option>
-        <option value="estero">Venduto all’estero</option>
-        <option value="morte">Morte giocatore</option>
-      </select>
-    </label>
-  </form>
-  <p id="result"></p>
+  <main>
+    <h1>Calcola i crediti guadagnati con uno svincolo</h1>
+    <div class="istruzioni">
+      <strong>Come trovare la quotazione attuale del calciatore:</strong>
+      <ul>
+        <li>Apri l’app Fantacalcio e vai nella scheda del calciatore.</li>
+        <li>Per la <strong>quotazione al momento dell’acquisto</strong>, individua la giornata esatta guardando il giorno dell’asta oppure la data di ufficializzazione riportata nel gruppo <em>Mercato & Avvisi</em>.</li>
+        <li>Consulta il <strong>calendario della Serie A</strong>:<br>
+         – Se la data corrisponde a <u>un giorno in cui una giornata è ancora in corso</u>, devi prendere la quotazione riferita alla <b>giornata precedente</b> (perché i prezzi ancora non erano stati aggiornati!).<br>
+         <b>Esempio:</b> Se compri Messi il 23 settembre e la 3ª giornata è ancora in corso, considera il prezzo della 2ª giornata.</li>
+      </ul>
+    </div>
+    <form oninput="updateResult()" id="calcolatrice-crediti">
+      <label>Prezzo d’acquisto:
+        <input id="A" type="number" min="1" value="1" required>
+      </label>
+      <label>Quotazione all’acquisto:
+        <input id="QB" type="number" min="1" value="1" required>
+      </label>
+      <label>Quotazione attuale:
+        <input id="QA" type="number" min="0" value="1" required>
+      </label>
+      <label>Situazione:
+        <select id="caso" onchange="updateResult()">
+          <option value="normale">Normale</option>
+          <option value="estero">Venduto all’estero</option>
+          <option value="morte">Morte giocatore</option>
+          <option value="infortunio">Infortunio grave (3+ mesi)</option>
+        </select>
+      </label>
+      <label id="info-infortunio" style="display:none;">
+        Mesi di stop confermati/diagnosi:
+        <input id="mesiStop" type="number" min="3" max="24" value="3">
+        <small>(Segui le fonti in ordine: Fantacalcio.it &gt; SOS Fanta &gt; FantaLab &gt; comunicato ufficiale squadra. Se trovi intervallo tipo "3-4", inserisci il <b>valore più basso</b>.)</small>
+      </label>
+    </form>
+    <div class="risultato" id="result"></div>
+    <ul>
+      <li><b>Per gli infortuni:</b> Se emergono aggiornamenti più recenti sulla durata effettiva, considera la durata <b>effettiva</b> ai fini del calcolo (prendi il valore minimo se comunicato un intervallo).</li>
+      <li>Se venduto all'estero e pagato più o uguale al valore attuale, crediti = valore massimo tra metà prezzo pagato e quotazione attuale.</li>
+      <li>Per i decessi, crediti = massimo tra quotazione attuale e la formula standard; se ≥30 puoi sostituire subito il giocatore da svincolati.</li>
+    </ul>
+  </main>
   <script>
     function updateResult() {
-      var A = parseInt(document.getElementById('A').value)||0;
-      var QB = parseInt(document.getElementById('QB').value)||0;
-      var QA = parseInt(document.getElementById('QA').value)||0;
+      var A = parseFloat(document.getElementById('A').value)||0;
+      var QB = parseFloat(document.getElementById('QB').value)||0;
+      var QA = parseFloat(document.getElementById('QA').value)||0;
       var caso = document.getElementById('caso').value;
-      var crediti = 1;
-      if(caso == "normale") {
-        if(A >= QA) crediti = QA;
-        else crediti = Math.max(1, A+(QB-QA));
-      }
-      if(caso == "estero") {
-        crediti = Math.max(Math.floor(A/2), QA);
-      }
-      if(caso == "morte") {
-        crediti = Math.max(QA, A+(QB-QA));
-        if(crediti >= 30) {
-          document.getElementById('result').innerHTML = "Crediti: "+crediti+"<br>Puoi subito prendere uno svincolato!";
-          return;
+      var mesiStop = parseFloat(document.getElementById('mesiStop') ? document.getElementById('mesiStop').value : '0') || 0;
+
+      // Mostra/nascondi campo mesi stop infortunio
+      document.getElementById('info-infortunio').style.display = (caso === "infortunio") ? "block" : "none";
+
+      let crediti = 1;
+      let extraMsg = "";
+
+      if (caso === "normale") {
+        // Regola base: pagato più/uguale alla quotazione attuale
+        if (A >= QA) crediti = QA;
+        else crediti = Math.max(1, A + (QB - QA));
+      } else if (caso === "estero") {
+        crediti = Math.max(Math.floor(A / 2), QA);
+      } else if (caso === "morte") {
+        crediti = Math.max(QA, A + (QB - QA));
+        if (crediti >= 30)
+          extraMsg = "<br><b>Puoi subito prendere uno svincolato!</b>";
+      } else if (caso === "infortunio") {
+        if (mesiStop >= 3 && mesiStop <= 6) {
+          crediti = Math.max(QA, Math.round(A * 0.5));
+          extraMsg = "<br>(50% del prezzo d'acquisto o quotazione all’infortunio)";
+        } else if (mesiStop > 6) {
+          crediti = Math.max(QA, Math.round(A * 0.6));
+          extraMsg = "<br>(60% del prezzo d'acquisto o quotazione all’infortunio)";
+        } else {
+          crediti = Math.max(1, QA);
+          extraMsg = "<br>(Infortunio inferiore a 3 mesi, si usa la regola normale)";
         }
       }
-      document.getElementById('result').innerText = "Crediti: " + crediti;
+      document.getElementById('result').innerHTML = "Crediti guadagnati: <b>" + crediti + "</b>" + extraMsg;
     }
     updateResult();
   </script>
-  <!-- Puoi aggiungere una sezione FAQ/manuale calcolo crediti -->
 </body>
 </html>
