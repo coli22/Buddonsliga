@@ -217,7 +217,15 @@
           }
         }
       } else if (caso === "estero") {
+        if (A >= QA) {
         crediti = Math.max(Math.floor(A / 2), QA);
+          else {
+          // Caso specifico: rivalutazione/svalutazione in base a QA vs QB
+          if (QA >= QB) {
+            crediti = Math.max(1, A + (QA - QB));
+          } else {
+            crediti = Math.max(1, A - (QB - QA));
+          }
       } else if (caso === "morte") {
         crediti = Math.max(QA, A + (QA - QB));
         if (crediti >= 30) {
@@ -226,10 +234,10 @@
       } else if (caso === "infortunio") {
         if (mesiStop >= 3 && mesiStop <= 6) {
           crediti = Math.max(QA, Math.round(A * 0.5));
-          extraMsg = "<br>(50% del prezzo d'acquisto o quotazione all’infortunio)";
+          extraMsg = "<br>(50% del prezzo d'acquisto o quotazione all’infortunio, inserire al posto di quotazione acquisto, la quotazione al momento dell'infortunio)";
         } else if (mesiStop > 6) {
           crediti = Math.max(QA, Math.round(A * 0.6));
-          extraMsg = "<br>(60% del prezzo d'acquisto o quotazione all’infortunio)";
+          extraMsg = "<br>(60% del prezzo d'acquisto o quotazione all’infortunio, inserire al posto di quotazione acquisto, la quotazione al momento dell'infortunio)";
         } else {
           crediti = Math.max(1, QA);
           extraMsg = "<br>(Infortunio inferiore a 3 mesi, si usa la regola normale)";
