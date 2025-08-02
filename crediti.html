@@ -104,13 +104,14 @@
       font-weight: 700;
       color: #715600;
       min-height: 52px;
-      min-width: 65vw;
+      width: 100%;
       max-width: 380px;
       box-shadow: 0 2px 6px rgba(220,180,0,0.06);
       text-align: center;
       word-break: break-word;
-      padding: 18px 5vw;
+      padding: 18px 2vw;
       transition: background 0.2s;
+      box-sizing: border-box;
     }
     ul {
       text-align: left;
@@ -209,6 +210,7 @@
         if (A >= QA) {
           crediti = QA;
         } else {
+          // Caso specifico: rivalutazione/svalutazione in base a QA vs QB
           if (QA >= QB) {
             crediti = Math.max(1, A + (QA - QB));
           } else {
@@ -216,7 +218,16 @@
           }
         }
       } else if (caso === "estero") {
-        crediti = Math.max(Math.floor(A / 2), QA);
+        if (A >= QA) {
+          crediti = Math.max(Math.floor(A / 2), QA);
+        } else {
+          // Caso specifico: rivalutazione/svalutazione in base a QA vs QB
+          if (QA >= QB) {
+            crediti = Math.max(1, A + (QA - QB));
+          } else {
+            crediti = Math.max(1, A - (QB - QA));
+          }
+        }
       } else if (caso === "morte") {
         crediti = Math.max(QA, A + (QA - QB));
         if (crediti >= 30) {
@@ -225,10 +236,10 @@
       } else if (caso === "infortunio") {
         if (mesiStop >= 3 && mesiStop <= 6) {
           crediti = Math.max(QA, Math.round(A * 0.5));
-          extraMsg = "<br>(50% del prezzo d'acquisto o quotazione all’infortunio)";
+          extraMsg = "<br>(50% del prezzo d'acquisto o quotazione all’infortunio, inserire al posto di quotazione acquisto, la quotazione al momento dell'infortunio)";
         } else if (mesiStop > 6) {
           crediti = Math.max(QA, Math.round(A * 0.6));
-          extraMsg = "<br>(60% del prezzo d'acquisto o quotazione all’infortunio)";
+          extraMsg = "<br>(60% del prezzo d'acquisto o quotazione all’infortunio, inserire al posto di quotazione acquisto, la quotazione al momento dell'infortunio)";
         } else {
           crediti = Math.max(1, QA);
           extraMsg = "<br>(Infortunio inferiore a 3 mesi, si usa la regola normale)";
