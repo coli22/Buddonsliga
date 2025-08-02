@@ -212,9 +212,9 @@
         } else {
           // Caso specifico: rivalutazione/svalutazione in base a QA vs QB
           if (QA >= QB) {
-            crediti = A - (QA - QB));
+            crediti = A + (QA - QB);
           } else {
-            crediti = A + (QB - QA));
+            crediti = A - (QB - QA);
           }
         }
       } else if (caso === "estero") {
