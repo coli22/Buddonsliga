@@ -205,10 +205,10 @@
 
       let crediti = 1;
       let extraMsg = "";
-
+      // QB = quotazione all'acquisto
       if (caso === "normale") {
-        if (A >= QA) {
-          crediti = QA;
+        if (A >= QB) {
+          crediti = QB;
         } else {
           // Caso specifico: rivalutazione/svalutazione in base a QA vs QB
           if (QA >= QB) {
