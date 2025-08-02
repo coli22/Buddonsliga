@@ -180,7 +180,7 @@
     </form>
     <div class="risultato" id="result"></div>
     <ul>
-      <li><b>Per infortuni:</b> usa la durata effettiva appena nota, e se l'intervallo è "3-4 mesi" considera <b>minimo</b> (qui: 3).</li>
+      <li><b>Per infortuni:</b> usa la durata effettiva appena nota, e se l'intervallo è "3-4 mesi" considera <b>minimo</b> (qui: 3). N.B AL POSTO DI QUOTAZIONE ATTUALE INSERISCI QUOTAZIONE AL MOMENTO DELL'INFORTUNIO.</li>
       <li>Svincolando per vendita all'estero: massimo tra metà prezzo pagato e quotazione attuale.</li>
       <li>Decesso: massimo tra quotazione attuale e formula svincolo; se crediti ≥ 30 puoi acquistare subito uno svincolato.</li>
       <li>Svalutazione/rivalutazione: puoi guadagnare o perdere crediti rispetto all’asta - vedi calcolatrice qui sopra.</li>
@@ -205,10 +205,10 @@
 
       let crediti = 1;
       let extraMsg = "";
-      // QB = quotazione all'acquisto
+      // QB = quotazione all'acquisto; QA= quotazione attuale
       if (caso === "normale") {
         if (A >= QB) {
-          crediti = QB;
+          crediti = QA;
         } else {
           // Caso specifico: rivalutazione/svalutazione in base a QA vs QB
           if (QA >= QB) {
@@ -223,25 +223,25 @@
         } else {
           // Caso specifico: rivalutazione/svalutazione in base a QA vs QB
           if (QA >= QB) {
-            crediti = Math.max(1, A + (QA - QB));
+            crediti = A + (QA - QB);
           } else {
-            crediti = Math.max(1, A - (QB - QA));
+            crediti = A - (QB - QA);
           }
         }
       } else if (caso === "morte") {
-        crediti = Math.max(QA, A + (QA - QB));
+        crediti = Math.max(Math.floor(A / 2), QA);
         if (crediti >= 30) {
           extraMsg = "<br><b>Puoi subito prendere uno svincolato!</b>";
         }
       } else if (caso === "infortunio") {
         if (mesiStop >= 3 && mesiStop <= 6) {
           crediti = Math.max(QA, Math.round(A * 0.5));
-          extraMsg = "<br>(50% del prezzo d'acquisto o quotazione all’infortunio, inserire al posto di quotazione acquisto, la quotazione al momento dell'infortunio)";
+          extraMsg = "<br>(50% del prezzo d'acquisto o quotazione all’infortunio)";
         } else if (mesiStop > 6) {
           crediti = Math.max(QA, Math.round(A * 0.6));
-          extraMsg = "<br>(60% del prezzo d'acquisto o quotazione all’infortunio, inserire al posto di quotazione acquisto, la quotazione al momento dell'infortunio)";
+          extraMsg = "<br>(60% del prezzo d'acquisto o quotazione all’infortunio)";
         } else {
-          crediti = Math.max(1, QA);
+          crediti = "Infortunio inferiore a 3 mesi, si usa la regola normale";
           extraMsg = "<br>(Infortunio inferiore a 3 mesi, si usa la regola normale)";
         }
       }
