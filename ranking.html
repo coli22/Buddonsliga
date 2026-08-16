@@ -2,227 +2,285 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <title>Ranking Buddonsliga</title>
+  <title>Ranking – Buddonsliga</title>
+  <meta name="description" content="La classifica storica aggiornata del ranking Buddonsliga 2025/2026.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f7fafc;
-      margin: 0;
-      padding: 0;
-      color: #222;
-    }
-    nav {
-      background: #004080;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 0;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
-    }
-    nav a {
-      color: #fff;
-      margin: 0 18px;
-      padding: 12px 0;
-      text-decoration: none;
-      font-weight: 600;
-      border-bottom: 2px solid transparent;
-      transition: border-bottom 0.2s, color 0.2s;
-      font-size: 18px;
-    }
-    nav a:hover, nav a:focus {
-      border-bottom: 2px solid #ffdf00;
-      color: #ffdf00;
-    }
-    main {
-      max-width: 820px;
-      margin: 36px auto;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.07);
-      padding: 32px 12px;
-      text-align: center;
-    }
-    h1 {
-      font-size: 2.1em;
-      margin-bottom: 12px;
-      color: #294988;
-      letter-spacing: 0.04em;
-    }
-    .ranking-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 1.06em;
-      margin: 40px 0 18px 0;
-      box-shadow: 0 2px 10px rgba(48,80,160,0.07);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    .ranking-table th, .ranking-table td {
-      padding: 12px 8px;
-      text-align: center;
-      border: none;
-    }
-    .ranking-table th {
-      background: linear-gradient(90deg,#0056b3 0%, #0099ff 100%);
-      color: #fff;
-      font-size: 1.12em;
-      letter-spacing: 0.03em;
-    }
-    .primo {
-      background: linear-gradient(90deg, #ffe27a 0%, #fff8de 100%);
-      font-weight: bold;
-      font-size: 1.16em;
-      color: #2d2600;
-    }
-    .secondo {
-      background: linear-gradient(90deg, #d4e8ff 0% , #f6fcff 100%);
-      font-weight: bold;
-      font-size: 1.09em;
-      color: #263048;
-    }
-    .terzo {
-      background: linear-gradient(90deg, #e3e3e3 0% , #f8f8f8 100%);
-      font-weight: bold;
-      color: #484b43;
-    }
-    .other {
-      background: #f8fafc;
-      color: #334258;
-    }
-    .ultima {
-      background: linear-gradient(90deg, #ffdede 0%, #faeded 100%);
-      color: #862020;
-    }
-    .ranking-table td.posizione {
-      font-size: 1.10em;
-      font-weight: bold;
-      font-family: monospace, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    @media (max-width: 720px) {
-      main { padding: 12px 2px; }
-      .ranking-table th, .ranking-table td { font-size: 0.95em; padding: 9px 2.5px; }
-    }
-    .download-section {
-      margin: 40px 0 18px 0;
-      font-size: 1.09em;
-    }
-    .download-btn {
-      display: inline-block;
-      background: linear-gradient(90deg, #0366d6 0%, #00b4fc 100%);
-      color: #fff;
-      text-decoration: none;
+    .rank-num {
+      font-family: 'Inter', monospace;
+      font-variant-numeric: tabular-nums;
       font-weight: 700;
-      border-radius: 6px;
-      padding: 12px 24px;
-      margin: 6px 0 0 0;
-      transition: background 0.15s, box-shadow 0.15s;
-      box-shadow: 0 2px 8px rgba(60,80,100,0.08);
-      border: none;
-      cursor: pointer;
     }
-    .download-btn:hover {
-      background: linear-gradient(90deg, #00b4fc 10%, #0366d6 80%);
-      color: #fff1a3;
-      box-shadow: 0 4px 16px rgba(0,64,160,0.09);
+
+    .delta {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 999px;
     }
-    .iframe-pdf {
+    .delta.up   { background: rgba(34,197,94,0.12); color: #4ade80; }
+    .delta.down { background: rgba(239,68,68,0.12); color: #f87171; }
+    .delta.same { background: rgba(100,116,139,0.12); color: var(--text-dim); }
+
+    .breakdown-pill {
+      display: inline-flex;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+    .breakdown-pill span { color: var(--text-muted); }
+
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--glass-border);
+    }
+
+    .pdf-section { margin-top: 40px; }
+    .pdf-frame-rank {
       width: 100%;
-      height: 700px;
-      border: 1px solid #b0b8c0;
-      border-radius: 7px;
-      margin: 16px auto 0 auto;
-      background: #f4fcff;
-      display: block;
+      height: 600px;
+      border: none;
+      border-radius: var(--radius-md);
+      background: #f0f0f0;
     }
+    @media (max-width:720px) {
+      .pdf-frame-rank { height: 70vw; min-height: 280px; }
+      .breakdown-pill { display: none; }
+    }
+
+    .top-card {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .top-card-item {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      text-align: center;
+      transition: all var(--transition);
+    }
+    .top-card-item.gold   { border-color: rgba(251,191,36,0.3); background: rgba(251,191,36,0.05); }
+    .top-card-item.silver { border-color: rgba(148,163,184,0.25); background: rgba(148,163,184,0.04); }
+    .top-card-item.bronze { border-color: rgba(205,127,50,0.25); background: rgba(205,127,50,0.04); }
+    .top-card-item .tc-pos { font-size: 1.6rem; margin-bottom: 4px; }
+    .top-card-item .tc-name { font-weight: 700; font-size: 0.85rem; color: var(--text-main); margin-bottom: 4px; }
+    .top-card-item .tc-pts  { font-size: 1.3rem; font-weight: 800; color: var(--gold); }
+    .top-card-item .tc-label{ font-size: 0.7rem; color: var(--text-dim); text-transform:uppercase; letter-spacing:0.06em; }
   </style>
 </head>
 <body>
-  <nav>
-    <a href="index.html">Home</a> |
-    <a href="regolamento.html">Regolamento</a> |
-    <a href="crediti.html">Calcolo Crediti</a> |
-    <a href="albo.html">Albo d'Oro</a> |
-    <a href="ranking.html">Ranking</a>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="navbar-brand">
+      <span class="brand-icon">⚽</span>
+      <span class="brand-name">Buddonsliga</span>
+    </a>
+    <div class="navbar-links">
+      <a href="index.html">Home</a>
+      <a href="regolamento.html">Regolamento</a>
+      <a href="crediti.html">Crediti</a>
+      <a href="albo.html">Albo d'Oro</a>
+      <a href="ranking.html" class="active">Ranking</a>
+    </div>
   </nav>
-  <main>
-    <h1>Ranking Attuale – Buddonsliga</h1>
 
-    <!-- Visualizzazione classifica -->
-    <table class="ranking-table">
-      <tr>
-        <th>Posizione</th>
-        <th>Squadra</th>
-        <th>Punti</th>
-      </tr>
-      <tr class="primo">
-        <td class="posizione">1</td>
-        <td>GLI ARGONAUTI</td>
-        <td>24,493.5</td>
-      </tr>
-      <tr class="secondo">
-        <td class="posizione">2</td>
-        <td>COLIMASTER</td>
-        <td>24,377</td>
-      </tr>
-      <tr class="terzo">
-        <td class="posizione">3</td>
-        <td>BANANA DREAM TEAM</td>
-        <td>24,191</td>
-      </tr>
-      <tr class="other">
-        <td class="posizione">4</td>
-        <td>SESTU FC</td>
-        <td>24,004</td>
-      </tr>
-      <tr class="other">
-        <td class="posizione">5</td>
-        <td>MONTE URPINU FC</td>
-        <td>23,976</td>
-      </tr>
-      <tr class="other">
-        <td class="posizione">6</td>
-        <td>BOMBER MOSCARDELLI</td>
-        <td>23,948.5</td>
-      </tr>
-      <tr class="other">
-        <td class="posizione">7</td>
-        <td>STRATIOTAI</td>
-        <td>23,819.5</td>
-      </tr>
-      <tr class="other">
-        <td class="posizione">8</td>
-        <td>PESCARA MANZIA</td>
-        <td>23,467.5</td>
-      </tr>
-      <tr class="other">
-        <td class="posizione">9</td>
-        <td>BENEVENGO FC</td>
-        <td>23,382</td>
-      </tr>
-      <tr class="ultima">
-        <td class="posizione">10</td>
-        <td>JESUS FC</td>
-        <td>22,431.5</td>
-      </tr>
-    </table>
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Ranking Buddonsliga</h1>
+    <p>Punteggio cumulativo basato su punti totali, posizionamento e bonus storici. Maggior peso agli ultimi 3 anni.</p>
+  </section>
 
-    <h2>Dati grezzi del ranking</h2>
-    <div class="download-section">
-      <a href="https://raw.githubusercontent.com/col122/Buddonsliga/main/RANKING%20BUDDONSLIGA.xlsx"
-         class="download-btn" download>
-        Scarica il file Excel
-      </a>
+  <div class="container">
+
+    <!-- DOWNLOAD RAPIDO – primo elemento visibile -->
+    <div class="card" style="margin-bottom:28px; background:linear-gradient(135deg, rgba(26,115,232,0.1), rgba(251,191,36,0.06)); border-color:rgba(26,115,232,0.25);">
+      <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:space-between;">
+        <div>
+          <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-dim); margin-bottom:4px;">Dati Ranking 2025/2026</div>
+          <div style="font-weight:700; color:var(--text-main); font-size:1rem;">Scarica o visualizza il file completo</div>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <a href="RANKING%20BUDDONSLIGA.xlsx" download class="btn btn-primary" style="gap:8px;">
+            <span>📊</span> Excel
+          </a>
+          <a href="RANKING%20BUDDONSLIGA.pdf" target="_blank" class="btn btn-gold" style="gap:8px;">
+            <span>📄</span> PDF
+          </a>
+        </div>
+      </div>
     </div>
 
-    <h2>Ranking in PDF</h2>
-    <iframe class="iframe-pdf" src="RANKING%20BUDDONSLIGA.pdf"></iframe>
-    <footer style="width:100%; text-align:center; margin-top:30px; padding:16px 0; font-size:0.8em; color:#666;">
-  <div>Contatore visite</div>
-  <a href="http://www.contatore-visite.net/blog.php" target="_blank">
-    <img alt="Guest blogging" src="http://www.contatore-visite.net/contatore.gif" border="0">
-  </a>
-</footer>
-  </main>
+    <!-- PODIO TOP 3 -->
+    <div class="section-title"><span class="icon">🏆</span> Podio Attuale</div>
+    <div class="top-card">
+      <div class="top-card-item silver">
+        <div class="tc-pos">🥈</div>
+        <div class="tc-name">COLIMASTER</div>
+        <div class="tc-pts">27.049</div>
+        <div class="tc-label">2° posto</div>
+      </div>
+      <div class="top-card-item gold">
+        <div class="tc-pos">🥇</div>
+        <div class="tc-name">GLI ARGONAUTI</div>
+        <div class="tc-pts">27.099</div>
+        <div class="tc-label">1° posto</div>
+      </div>
+      <div class="top-card-item bronze">
+        <div class="tc-pos">🥉</div>
+        <div class="tc-name">MONTE URPINU FC</div>
+        <div class="tc-pts">26.994,5</div>
+        <div class="tc-label">3° posto</div>
+      </div>
+    </div>
+
+    <!-- RANKING TABLE -->
+    <div class="section-title"><span class="icon">📋</span> Classifica Completa</div>
+
+    <div class="table-wrap">
+      <table class="data-table" id="rankingTable">
+        <thead>
+          <tr>
+            <th style="width:52px;">#</th>
+            <th style="text-align:left; padding-left:20px;">Squadra</th>
+            <th title="Punti Totali">PT</th>
+            <th title="Punti Posizionamento">PP</th>
+            <th title="Punti Bonus">Bonus</th>
+            <th>Totale</th>
+            <th title="Variazione rispetto anno precedente">Δ vs 2024/25</th>
+          </tr>
+        </thead>
+        <tbody id="rankBody">
+          <!-- filled by JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- BARRE VISIVE -->
+    <div style="margin-top: 32px;">
+      <div class="section-title"><span class="icon">📈</span> Distribuzione Punteggi</div>
+      <div id="barChart" style="display:flex; flex-direction:column; gap:10px;"></div>
+    </div>
+
+    <!-- PDF EMBED -->
+    <div class="pdf-section">
+      <div class="section-title"><span class="icon">📄</span> Visualizza PDF</div>
+      <div class="card" style="padding:20px;">
+        <iframe class="pdf-frame-rank" src="RANKING%20BUDDONSLIGA.pdf" title="Ranking Buddonsliga PDF"></iframe>
+        <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+          <a href="RANKING%20BUDDONSLIGA.xlsx" download class="btn btn-primary">📊 Scarica Excel</a>
+          <a href="RANKING%20BUDDONSLIGA.pdf" target="_blank" class="btn btn-ghost">↗ Apri PDF a schermo intero</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p>© 2014–2026 Buddonsliga</p>
+    <div class="counter-wrap" style="opacity:0.35; margin-top:6px;">
+      <a href="http://www.contatore-visite.net/blog.php" target="_blank" rel="noopener">
+        <img alt="Contatore visite" src="http://www.contatore-visite.net/contatore.gif" style="border:none;height:16px;">
+      </a>
+    </div>
+  </footer>
+
+<script>
+  // ── DATI AGGIORNATI DAL FILE EXCEL (data_only) – stagione 2025/2026 ──
+  const ranking = [
+    { pos:1,  team: "GLI ARGONAUTI",      pt: 25399,   pp: 1600,   bonus: 100,  total: 27099,   prevTotal: 24493.5 },
+    { pos:2,  team: "COLIMASTER",         pt: 25461.5, pp: 1537.5, bonus: 50,   total: 27049,   prevTotal: 24377   },
+    { pos:3,  team: "MONTE URPINU FC",    pt: 25159.5, pp: 1425,   bonus: 410,  total: 26994.5, prevTotal: 23976   },
+    { pos:4,  team: "BANANA DREAM TEAM",  pt: 25288,   pp: 1025,   bonus: 65,   total: 26378,   prevTotal: 24191   },
+    { pos:5,  team: "SESTU FC",           pt: 25083,   pp: 1075,   bonus: 95,   total: 26253,   prevTotal: 24004   },
+    { pos:6,  team: "BOMBER MOSCARDELLI", pt: 25125.5, pp: 1075,   bonus: 50,   total: 26250.5, prevTotal: 23948.5 },
+    { pos:7,  team: "STRATIOTAI",         pt: 25061.5, pp: 1187.5, bonus: 0,    total: 26249,   prevTotal: 23819.5 },
+    { pos:8,  team: "BENEVENGO FC",       pt: 25059.5, pp: 1000,   bonus: 0,    total: 26059.5, prevTotal: 23382   },
+    { pos:9,  team: "PESCARA MANZIA",     pt: 24986.5, pp: 775,    bonus: 100,  total: 25861.5, prevTotal: 23467.5 },
+    { pos:10, team: "MIMI & COCO",        pt: 24327,   pp: 675,    bonus: 45,   total: 25047,   prevTotal: 22431.5 },
+  ];
+
+  const maxTotal = Math.max(...ranking.map(r => r.total));
+
+  function fmtNum(n) {
+    return n.toLocaleString('it-IT', { minimumFractionDigits: n % 1 !== 0 ? 1 : 0 });
+  }
+
+  function getDelta(curr, prev) {
+    if (prev === null) return '<span class="delta same">NEW</span>';
+    const diff = curr - prev;
+    if (diff > 0) return `<span class="delta up">▲ +${fmtNum(diff)}</span>`;
+    if (diff < 0) return `<span class="delta down">▼ ${fmtNum(diff)}</span>`;
+    return '<span class="delta same">— 0</span>';
+  }
+
+  function getRowClass(pos) {
+    if (pos === 1) return 'row-gold';
+    if (pos === 2) return 'row-silver';
+    if (pos === 3) return 'row-bronze';
+    if (pos === 10) return 'row-last';
+    return '';
+  }
+
+  function getPosEmoji(pos) {
+    if (pos === 1) return '🥇';
+    if (pos === 2) return '🥈';
+    if (pos === 3) return '🥉';
+    return pos;
+  }
+
+  // Render table
+  const tbody = document.getElementById('rankBody');
+  ranking.forEach(r => {
+    const tr = document.createElement('tr');
+    const rc = getRowClass(r.pos);
+    if (rc) tr.className = rc;
+    tr.innerHTML = `
+      <td><span style="font-size:1.1rem;">${getPosEmoji(r.pos)}</span></td>
+      <td style="text-align:left; padding-left:20px; font-weight:600;">${r.team}</td>
+      <td class="rank-num">${fmtNum(r.pt)}</td>
+      <td class="rank-num" style="color:var(--primary-light);">${fmtNum(r.pp)}</td>
+      <td class="rank-num" style="color:#a78bfa;">${fmtNum(r.bonus)}</td>
+      <td class="rank-num" style="font-size:1.05rem; font-weight:800;">${fmtNum(r.total)}</td>
+      <td>${getDelta(r.total, r.prevTotal)}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  // Render bar chart
+  const barChart = document.getElementById('barChart');
+  ranking.forEach(r => {
+    const pct = ((r.total / maxTotal) * 100).toFixed(1);
+    const isTop = r.pos <= 3;
+    const color = r.pos === 1 ? 'var(--gold)' : r.pos === 2 ? '#94a3b8' : r.pos === 3 ? '#d4a574' : 'var(--primary)';
+    barChart.innerHTML += `
+      <div style="display:flex; align-items:center; gap:12px; font-size:0.82rem;">
+        <span style="width:24px; text-align:center; font-size:0.9rem; flex-shrink:0;">${getPosEmoji(r.pos)}</span>
+        <span style="width:160px; flex-shrink:0; color:${isTop ? 'var(--text-main)' : 'var(--text-muted)'}; font-weight:${isTop?'700':'400'}; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${r.team}</span>
+        <div class="rank-bar-bg" style="flex:1;">
+          <div class="rank-bar" style="width:0%; background:${r.pos<=3?'var(--gradient-gold)':'var(--gradient-btn)'};" data-w="${pct}"></div>
+        </div>
+        <span style="width:72px; text-align:right; font-weight:700; color:${color}; font-variant-numeric:tabular-nums;">${fmtNum(r.total)}</span>
+      </div>
+    `;
+  });
+
+  // Animate bars
+  setTimeout(() => {
+    document.querySelectorAll('.rank-bar').forEach(bar => {
+      bar.style.width = bar.dataset.w + '%';
+    });
+  }, 150);
+</script>
+
 </body>
 </html>

@@ -2,219 +2,293 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <title>Albo d'Oro</title>
+  <title>Albo d'Oro – Buddonsliga</title>
+  <meta name="description" content="Tutti i vincitori storici della Buddonsliga: campionati, Buddonscup e MVP.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f7fafc;
-      margin: 0;
-      padding: 0;
-      color: #222;
+    .trophy-count {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.85em;
     }
-    nav {
-      background: #004080;
-      display: flex;
-      flex-wrap: wrap;
+    .trophy-count .t { opacity: 0.6; font-size: 0.9em; }
+    .trophy-count .n { font-weight: 700; color: var(--gold); }
+
+    .sum-badge {
+      display: inline-block;
+      background: var(--gradient-gold);
+      color: #1a1000;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 3px 12px;
+      min-width: 36px;
+    }
+
+    .pos-badge {
+      display: inline-flex;
+      align-items: center;
       justify-content: center;
-      padding: 0;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      font-size: 0.82rem;
+      font-weight: 700;
     }
-    nav a {
-      color: #fff;
-      margin: 0 18px;
-      padding: 12px 0;
-      text-decoration: none;
-      font-weight: 600;
-      border-bottom: 2px solid transparent;
-      transition: border-bottom 0.2s, color 0.2s;
-      font-size: 18px;
+    .pos-1 { background: rgba(251,191,36,0.2); color: var(--gold); border: 1px solid rgba(251,191,36,0.4); }
+    .pos-2 { background: rgba(148,163,184,0.15); color: #cbd5e1; border: 1px solid rgba(148,163,184,0.3); }
+    .pos-3 { background: rgba(205,127,50,0.15); color: #d4a574; border: 1px solid rgba(205,127,50,0.3); }
+    .pos-n { background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid var(--glass-border); }
+
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--glass-border);
     }
-    nav a:hover, nav a:focus {
-      border-bottom: 2px solid #ffdf00;
-      color: #ffdf00;
+
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
     }
-    main {
-      max-width: 820px;
-      margin: 36px auto;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.07);
-      padding: 32px 12px;
-      text-align: center;
-    }
-    h1 {
-      font-size: 2.1em;
-      margin-bottom: 12px;
-      color: #294988;
-      letter-spacing: 0.04em;
-    }
-    .sortable {
+    .filter-btn {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 999px;
+      color: var(--text-muted);
+      padding: 6px 14px;
+      font-size: 0.8rem;
       cursor: pointer;
-      user-select: none;
-      transition: color 0.2s;
+      transition: all var(--transition);
+      font-family: 'Inter', sans-serif;
     }
-    .sortable:hover, .sortable.sorted {
-      color: #ffa800;
-      text-decoration: underline;
+    .filter-btn:hover, .filter-btn.active {
+      background: rgba(26,115,232,0.15);
+      border-color: var(--primary);
+      color: var(--primary-light);
     }
-    .doro-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 1.09em;
-      margin: 38px 0 16px 0;
-      box-shadow: 0 2px 10px rgba(48,80,160,0.07);
-      border-radius: 8px;
-      overflow: hidden;
-      background: #fff;
-    }
-    .doro-table th, .doro-table td {
-      padding: 12px 8px;
-      text-align: center;
-      border: none;
-    }
-    .doro-table th {
-      background: linear-gradient(90deg,#0056b3 0%, #0099ff 100%);
-      color: #fff;
-      font-size: 1.12em;
-      letter-spacing: 0.03em;
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-    .doro-table tbody tr:nth-child(odd) {
-      background: #f8fafc;
-    }
-    .doro-table tbody tr:nth-child(even) {
-      background: #eef5fd;
-    }
-    @media (max-width: 700px) {
-      nav a { margin: 0 7px; font-size: 15px; }
-      main { padding: 11px 2px; }
-      .doro-table th, .doro-table td { padding: 6px 2px; font-size: 0.96em; }
-    }
-    .icona-trofeo {
-      font-size: 1.15em;
-      vertical-align: text-bottom;
-    }
-    .sumcell {
-      font-weight: bold;
-      color: #035b66;
-    }
-    .smallnote {
-      color: #456896; 
-      font-size:0.98em;
-      margin-top:1.5em;
-    }
+    .filter-btn.active { font-weight: 600; }
   </style>
 </head>
 <body>
-  <nav>
-    <a href="index.html">Home</a> |
-    <a href="regolamento.html">Regolamento</a> |
-    <a href="crediti.html">Calcolo Crediti</a> |
-    <a href="albo.html">Albo d'Oro</a> |
-    <a href="ranking.html">Ranking</a>
-  </nav>
-  <main>
-    <h1>Albo d'Oro Buddonsliga</h1>
-    <table class="doro-table" id="tabellaAlbo">
-      <thead>
-        <tr>
-          <th class="sortable" data-col="team">Squadra</th>
-          <th class="sortable" data-col="buddonsliga">
-            <span class="icona-trofeo">🏆</span> Buddonsliga
-          </th>
-          <th class="sortable" data-col="buddonscup">
-            <span class="icona-trofeo">🥇</span> Buddonscup
-          </th>
-          <th class="sortable" data-col="mvp">
-            <span class="icona-trofeo">🎖️</span> MVP
-          </th>
-          <th class="sortable" data-col="somma">Tot. Trofei</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Tabella generata JS -->
-      </tbody>
-    </table>
-    <div class="smallnote">
-      <span class="icona-trofeo">🏆</span> Buddonsliga
-      <span class="icona-trofeo" style="margin-left:15px;">🥇</span> Buddonscup
-      <span class="icona-trofeo" style="margin-left:15px;">🎖️</span> MVP
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="navbar-brand">
+      <span class="brand-icon">⚽</span>
+      <span class="brand-name">Buddonsliga</span>
+    </a>
+    <div class="navbar-links">
+      <a href="index.html">Home</a>
+      <a href="regolamento.html">Regolamento</a>
+      <a href="crediti.html">Crediti</a>
+      <a href="albo.html" class="active">Albo d'Oro</a>
+      <a href="ranking.html">Ranking</a>
     </div>
-  </main>
-  <script>
-    // Modifica qui i dati delle squadre!
-    const data = [
-      {team:"GLI ARGONAUTI", buddonsliga:2, buddonscup:1, mvp:0},
-      {team:"COLIMASTER", buddonsliga:2, buddonscup:0, mvp:0},
-      {team:"BANANA DREAM TEAM", buddonsliga:0, buddonscup:1, mvp:1},
-      {team:"BOMBER MOSCARDELLI", buddonsliga:2, buddonscup:1, mvp:0},
-      {team:"SESTU FC", buddonsliga:1, buddonscup:0, mvp:3},
-      {team:"STRATIOTAI", buddonsliga:2, buddonscup:0, mvp:0},
-      {team:"PESCARA MANZIA", buddonsliga:0, buddonscup:1, mvp:0},
-      {team:"MONTE URPINU FC", buddonsliga:1, buddonscup:2, mvp:2},
-      {team:"BENEVENGO FC", buddonsliga:1, buddonscup:0, mvp:0},
-      {team:"JESUS FC", buddonsliga:0, buddonscup:0, mvp:1}
-    ];
+  </nav>
 
-    // Funzione per rendering della tabella
-    function renderTable(dataArr) {
-      const tbodyEl = document.querySelector("#tabellaAlbo tbody");
-      tbodyEl.innerHTML = ""; // Pulisci
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Albo d'Oro</h1>
+    <p>Tutti i vincitori storici di Buddonsliga, Buddonscup e MVP dalla fondazione.</p>
+  </section>
 
-      for (const d of dataArr) {
-        const somma = d.buddonsliga + d.buddonscup + d.mvp;
-        tbodyEl.innerHTML += `<tr>
-          <td>${d.team}</td>
-          <td>${d.buddonsliga}</td>
-          <td>${d.buddonscup}</td>
-          <td>${d.mvp}</td>
-          <td class="sumcell">${somma}</td>
-        </tr>`;
-      }
-    }
+  <div class="container">
 
-    // Ordinamento tabella
-    let currentSort = {col: "somma", asc: false};
-    function sortData(col, asc) {
-      data.sort((a, b) => {
-        if(col === "team") {
-          return asc 
-            ? a.team.localeCompare(b.team)
-            : b.team.localeCompare(a.team);
-        } else {
-          return asc ? a[col]-b[col] : b[col]-a[col];
-        }
-      });
-      renderTable(data);
-      document.querySelectorAll(".sortable").forEach(th=>th.classList.remove("sorted"));
-      const th = document.querySelector(`[data-col="${col}"]`);
-      if (th) th.classList.add("sorted");
-    }
+    <!-- PODIO TROFEI TOTALI -->
+    <div class="section-title"><span class="icon">🥇</span> Podio Trofei Totali</div>
+    <div class="podio" id="podioWrap">
+      <!-- filled by JS -->
+    </div>
 
-    // Handler click intestazione
-    document.addEventListener("DOMContentLoaded", ()=>{
-      renderTable(data);
-      sortData("somma", false); // Default: totale decrescente
+    <!-- STATS RAPIDE -->
+    <div class="stats-grid" style="margin-bottom:40px;">
+      <div class="stat-card">
+        <span class="stat-icon">🏆</span>
+        <div class="stat-value" id="totBuddonsliga">—</div>
+        <div class="stat-label">Titoli Buddonsliga</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">🥇</span>
+        <div class="stat-value" id="totBuddonscup">—</div>
+        <div class="stat-label">Titoli Buddonscup</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">🎖️</span>
+        <div class="stat-value" id="totMvp">—</div>
+        <div class="stat-label">Premi MVP</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">⭐</span>
+        <div class="stat-value" id="totTrofei">—</div>
+        <div class="stat-label">Trofei Totali</div>
+      </div>
+    </div>
 
-      document.querySelectorAll(".sortable").forEach(th=>{
-        th.addEventListener("click", function(){
-          const col = this.getAttribute("data-col");
-          let asc = true;
-          if (currentSort.col===col) asc = !currentSort.asc;
-          else asc = ["team"].includes(col); // Ordine alfabetico di default per team
-          currentSort = {col, asc};
-          sortData(col, asc);
-        });
-      });
+    <!-- TABLE -->
+    <div class="section-title"><span class="icon">📋</span> Classifica Completa</div>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="sortBy('somma')">🏅 Trofei totali</button>
+      <button class="filter-btn" onclick="sortBy('buddonsliga')">🏆 Buddonsliga</button>
+      <button class="filter-btn" onclick="sortBy('buddonscup')">🥇 Buddonscup</button>
+      <button class="filter-btn" onclick="sortBy('mvp')">🎖️ MVP</button>
+      <button class="filter-btn" onclick="sortBy('team')">A–Z Nome</button>
+    </div>
+
+    <div class="table-wrap">
+      <table class="data-table" id="tabellaAlbo">
+        <thead>
+          <tr>
+            <th style="width:52px;">#</th>
+            <th style="text-align:left; padding-left:20px;">Squadra</th>
+            <th>🏆 Liga</th>
+            <th>🥇 Cup</th>
+            <th>🎖️ MVP</th>
+            <th>Tot.</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <p style="font-size:0.78rem; color:var(--text-dim); margin-top:12px; text-align:center;">
+      Clicca su una colonna per ordinare · Dati aggiornati alla stagione 2025/2026
+    </p>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p>© 2014–2026 Buddonsliga</p>
+    <div class="counter-wrap" style="opacity:0.35; margin-top:6px;">
+      <a href="http://www.contatore-visite.net/blog.php" target="_blank" rel="noopener">
+        <img alt="Contatore visite" src="http://www.contatore-visite.net/contatore.gif" style="border:none;height:16px;">
+      </a>
+    </div>
+  </footer>
+
+<script>
+  // ── DATI AGGIORNATI 2025/2026 ──
+  // Monte Urpinu: +1 Buddonsliga, +1 Buddonscup
+  // Mimi & Coco: +1 MVP
+  const data = [
+    { team: "GLI ARGONAUTI",      buddonsliga: 2, buddonscup: 1, mvp: 0 },
+    { team: "COLIMASTER",         buddonsliga: 2, buddonscup: 0, mvp: 0 },
+    { team: "BANANA DREAM TEAM",  buddonsliga: 0, buddonscup: 1, mvp: 1 },
+    { team: "BOMBER MOSCARDELLI", buddonsliga: 2, buddonscup: 1, mvp: 0 },
+    { team: "SESTU FC",           buddonsliga: 1, buddonscup: 0, mvp: 3 },
+    { team: "STRATIOTAI",         buddonsliga: 2, buddonscup: 0, mvp: 0 },
+    { team: "PESCARA MANZIA",     buddonsliga: 0, buddonscup: 1, mvp: 0 },
+    { team: "MONTE URPINU FC",    buddonsliga: 2, buddonscup: 3, mvp: 2 }, // +1 Liga, +1 Cup
+    { team: "BENEVENGO FC",       buddonsliga: 1, buddonscup: 0, mvp: 0 },
+    { team: "JESUS FC",           buddonsliga: 0, buddonscup: 0, mvp: 1 },
+    { team: "MIMI & COCO",        buddonsliga: 0, buddonscup: 0, mvp: 1 }, // +1 MVP
+  ];
+
+  // Stats summary
+  document.getElementById('totBuddonsliga').textContent = data.reduce((s,d)=>s+d.buddonsliga,0);
+  document.getElementById('totBuddonscup').textContent  = data.reduce((s,d)=>s+d.buddonscup,0);
+  document.getElementById('totMvp').textContent         = data.reduce((s,d)=>s+d.mvp,0);
+  document.getElementById('totTrofei').textContent      = data.reduce((s,d)=>s+d.buddonsliga+d.buddonscup+d.mvp,0);
+
+  // Sort state
+  let currentSort = { col: 'somma', asc: false };
+
+  function getRowClass(pos) {
+    if (pos === 0) return 'row-gold';
+    if (pos === 1) return 'row-silver';
+    if (pos === 2) return 'row-bronze';
+    return '';
+  }
+
+  function getPosClass(pos) {
+    if (pos === 0) return 'pos-1';
+    if (pos === 1) return 'pos-2';
+    if (pos === 2) return 'pos-3';
+    return 'pos-n';
+  }
+
+  function renderTable(arr) {
+    const tbody = document.querySelector('#tabellaAlbo tbody');
+    tbody.innerHTML = '';
+    arr.forEach((d, i) => {
+      const somma = d.buddonsliga + d.buddonscup + d.mvp;
+      const rowClass = getRowClass(i);
+      const tr = document.createElement('tr');
+      if (rowClass) tr.className = rowClass;
+      tr.innerHTML = `
+        <td><span class="pos-badge ${getPosClass(i)}">${i+1}</span></td>
+        <td style="text-align:left; padding-left:20px; font-weight:600;">${d.team}</td>
+        <td>${d.buddonsliga > 0 ? '🏆'.repeat(d.buddonsliga) + ' <span style="color:var(--text-dim);font-size:0.8em;">('+d.buddonsliga+')</span>' : '<span style="color:var(--text-dim)">—</span>'}</td>
+        <td>${d.buddonscup > 0 ? '🥇'.repeat(d.buddonscup) + ' <span style="color:var(--text-dim);font-size:0.8em;">('+d.buddonscup+')</span>' : '<span style="color:var(--text-dim)">—</span>'}</td>
+        <td>${d.mvp > 0 ? '🎖️'.repeat(d.mvp) + ' <span style="color:var(--text-dim);font-size:0.8em;">('+d.mvp+')</span>' : '<span style="color:var(--text-dim)">—</span>'}</td>
+        <td>${somma > 0 ? '<span class="sum-badge">'+somma+'</span>' : '<span style="color:var(--text-dim)">0</span>'}</td>
+      `;
+      tbody.appendChild(tr);
     });
-  </script>
-  <footer style="width:100%; text-align:center; margin-top:30px; padding:16px 0; font-size:0.8em; color:#666;">
-  <div>Contatore visite</div>
-  <a href="http://www.contatore-visite.net/blog.php" target="_blank">
-    <img alt="Guest blogging" src="http://www.contatore-visite.net/contatore.gif" border="0">
-  </a>
-</footer>
+  }
+
+  function sortBy(col) {
+    // Toggle direction if same column
+    if (currentSort.col === col) {
+      currentSort.asc = !currentSort.asc;
+    } else {
+      currentSort = { col, asc: col === 'team' };
+    }
+
+    const sorted = [...data].sort((a, b) => {
+      let va, vb;
+      if (col === 'team') {
+        va = a.team; vb = b.team;
+        return currentSort.asc ? va.localeCompare(vb) : vb.localeCompare(va);
+      } else if (col === 'somma') {
+        va = a.buddonsliga + a.buddonscup + a.mvp;
+        vb = b.buddonsliga + b.buddonscup + b.mvp;
+      } else {
+        va = a[col]; vb = b[col];
+      }
+      return currentSort.asc ? va - vb : vb - va;
+    });
+
+    renderTable(sorted);
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+
+  function renderPodio() {
+    const byTot = [...data]
+      .map(d => ({...d, tot: d.buddonsliga + d.buddonscup + d.mvp}))
+      .sort((a, b) => b.tot - a.tot);
+
+    const top3 = [byTot[1], byTot[0], byTot[2]]; // 2nd, 1st, 3rd for podio visual
+    const emojis = ['🥈', '🥇', '🥉'];
+    const positions = ['2°', '1°', '3°'];
+
+    const wrap = document.getElementById('podioWrap');
+    wrap.innerHTML = top3.map((d, i) => `
+      <div class="podio-item">
+        <div class="podio-name">${d.team}</div>
+        <div class="podio-block">
+          <span class="podio-emoji">${emojis[i]}</span>
+          <span class="podio-pos">${positions[i]}</span>
+          <span style="font-size:0.75rem; color:var(--text-dim); margin-top:4px;">${d.tot} trofei</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Init
+  const defaultSorted = [...data].sort((a, b) => {
+    const sa = a.buddonsliga + a.buddonscup + a.mvp;
+    const sb = b.buddonsliga + b.buddonscup + b.mvp;
+    return sb - sa;
+  });
+  renderTable(defaultSorted);
+  renderPodio();
+</script>
+
 </body>
 </html>

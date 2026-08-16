@@ -1,181 +1,457 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <title>ChatBot Regolamento Buddonsliga</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <title>Regolamento – Buddonsliga</title>
+  <meta name="description" content="Leggi il regolamento completo della Buddonsliga e chatta con il bot per domande rapide.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f7fafc;
-      margin: 0;
-      padding: 0;
-      color: #222;
-    }
-    nav {
-      background: #004080;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 10px 0;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
-    }
-    nav a {
-      color: #fff;
-      margin: 0 18px;
-      padding: 12px 0;
-      text-decoration: none;
-      font-weight: 600;
-      border-bottom: 2px solid transparent;
-      transition: border-bottom 0.2s, color 0.2s;
-      font-size: 18px;
-    }
-    nav a:hover, nav a:focus {
-      border-bottom: 2px solid #ffdf00;
-      color: #ffdf00;
-    }
-    main {
-      max-width: 700px;
-      margin: 36px auto;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.07);
-      padding: 32px 18px;
-      text-align: center;
-    }
-    h1 {
-      font-size: 2.1em;
-      margin-bottom: 12px;
-      color: #294988;
-      letter-spacing: 0.04em;
-    }
-    h2 {
-      color: #0366d6;
-      margin-top: 24px;
-    }
-    p {
-      line-height: 1.6;
-      font-size: 1.11em;
-      margin-bottom: 22px;
-    }
-    .chat-btn {
-      display: inline-block;
-      background: #0366d6;
-      color: #fff;
-      font-weight: bold;
-      padding: 15px 34px;
-      border-radius: 8px;
-      font-size: 1.17em;
-      text-decoration: none;
-      margin: 18px 0 24px 0;
-      transition: background 0.18s;
-    }
-    .chat-btn:hover {
-      background: #024488;
-      color: #ffe066;
-    }
-    .pdf-responsive {
+    .pdf-frame {
       width: 100%;
-      max-width: 100%;
-      height: 700px;
-      overflow: auto;
-      display: flex;
-      justify-content: center;
-      align-items: stretch;
-      -webkit-overflow-scrolling: touch;
-      border-radius: 8px;
-      position: relative;
-      margin-bottom: 10px;
-    }
-    .pdf-responsive iframe {
-      width: 100%;
-      height: 100%;
-      min-height: 400px;
-      max-width: 100vw;
-      border-radius: 8px;
+      height: 620px;
       border: none;
+      border-radius: var(--radius-md);
+      background: #f0f0f0;
     }
-    .apri-pdf {
-      display: none;
-      margin: 15px auto 0 auto;
-      font-size: 1.15em;
-      background: #0366d6;
-      color: #fff;
-      padding: 10px 22px;
-      border-radius: 7px;
-      text-decoration: none;
-      font-weight: bold;
-      width: fit-content;
+    @media (max-width: 720px) {
+      .pdf-frame { height: 70vw; min-height: 300px; }
     }
-    @media (max-width: 650px) {
-      nav a { margin: 0 10px; font-size: 16px; }
-      main { padding: 18px 5px; }
-      h1 { font-size: 1.3em; }
-      .chat-btn { padding: 12px 8px; font-size: 1em; }
-      .pdf-responsive {
-        height: 70vw;
-        min-height: 340px;
-        max-height: 72vw;
-      }
-      .pdf-responsive iframe {
-        min-height: 360px;
-        height: 100%;
-        max-height: 68vw;
-        width: 100%;
-      }
-      .apri-pdf {
-        display: block;
-      }
-    }
+    /* Form grid collapses to 1 col on phone */
     @media (max-width: 480px) {
-      .pdf-responsive {
-        height: 65vw;
-        min-height: 230px;
-        max-height: 350px;
-      }
-      .pdf-responsive iframe {
-        min-height: 220px;
-        max-height: 340px;
-      }
+      .form-grid { grid-template-columns: 1fr !important; }
+    }
+
+    .typing-dots span {
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      margin: 0 2px;
+      animation: typingBounce 1.2s infinite;
+    }
+    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typingBounce {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+      30%            { transform: translateY(-6px); opacity: 1; }
     }
   </style>
 </head>
 <body>
-  <nav>
-    <a href="index.html">Home</a> |
-    <a href="regolamento.html">Regolamento</a> |
-    <a href="crediti.html">Calcolo Crediti</a> |
-    <a href="albo.html">Albo d'Oro</a> |
-    <a href="ranking.html">Ranking</a>
-  </nav>
-  <main>
-    <h1>Regolamento Buddonsliga</h1>
 
-    <h2>Chatta con il regolamento!</h2>
-    <a href="https://www.chatpdf.com/share/uhAOqnVLcgThzpPlBA1fr" target="_blank" class="chat-btn" rel="noopener noreferrer">
-      ➔ Chatta SUBITO con il bot sul regolamento (si apre in nuova scheda)
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="navbar-brand">
+      <span class="brand-icon">⚽</span>
+      <span class="brand-name">Buddonsliga</span>
     </a>
-
-    <p>
-      Poni la tua domanda cliccando il bottone sopra: il bot risponde leggendo e comprendendo il regolamento PDF.<br>
-      Il chatBot può dare risposte inesatte. RIferirirsi sempre al PDF.
-    </p>
-
-    <h2 style="margin-top:44px;">Regolamento completo (PDF)</h2>
-    <div class="pdf-responsive">
-      <iframe src="RegolamentoBuddonsliga.pdf" allowfullscreen></iframe>
+    <div class="navbar-links">
+      <a href="index.html">Home</a>
+      <a href="regolamento.html" class="active">Regolamento</a>
+      <a href="crediti.html">Crediti</a>
+      <a href="albo.html">Albo d'Oro</a>
+      <a href="ranking.html">Ranking</a>
     </div>
-    <a href="RegolamentoBuddonsliga.pdf" target="_blank" class="apri-pdf">📄 Apri il PDF a tutto schermo</a>
+  </nav>
 
-    <p style="font-size:0.97em; color:#456996; margin-top:-14px;">
-      Puoi consultare l’intero regolamento qui sopra o scaricarlo.
-    </p>
-    <footer style="width:100%; text-align:center; margin-top:30px; padding:16px 0; font-size:0.8em; color:#666;">
-  <div>Contatore visite</div>
-  <a href="http://www.contatore-visite.net/blog.php" target="_blank">
-    <img alt="Guest blogging" src="http://www.contatore-visite.net/contatore.gif" border="0">
-  </a>
-</footer>
-  </main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">📋 Regolamento Ufficiale 2026/2027</div>
+    <h1>Regolamento Buddonsliga</h1>
+    <p>Consulta il regolamento completo o poni una domanda al bot locale — risponde direttamente dal testo ufficiale.</p>
+  </section>
+
+  <!-- MAIN -->
+  <div class="container-sm">
+
+    <!-- TABS -->
+    <div class="tabs" role="tablist">
+      <button class="tab active" id="tab-chat" onclick="showTab('chat')" role="tab" aria-selected="true">
+        🤖 Chatta col Bot
+      </button>
+      <button class="tab" id="tab-pdf" onclick="showTab('pdf')" role="tab" aria-selected="false">
+        📄 Leggi il PDF
+      </button>
+    </div>
+
+    <!-- TAB: CHATBOT -->
+    <div class="tab-content active" id="tc-chat">
+      <div class="card" style="padding:0; overflow:hidden;">
+        <div class="chat-container">
+          <!-- Quick questions -->
+          <div class="quick-questions">
+            <span style="font-size:0.72rem; color:var(--text-dim); align-self:center; margin-right:4px;">💡</span>
+            <button class="quick-q" onclick="sendQuickQ('Come funzionano gli svincoli?')">Svincoli</button>
+            <button class="quick-q" onclick="sendQuickQ('Quanti crediti si hanno?')">Crediti asta</button>
+            <button class="quick-q" onclick="sendQuickQ('Come funziona il ranking?')">Ranking</button>
+            <button class="quick-q" onclick="sendQuickQ('Regole infortunio giocatore')">Infortuni</button>
+            <button class="quick-q" onclick="sendQuickQ('Come funziona l\'asta?')">Aste</button>
+            <button class="quick-q" onclick="sendQuickQ('Regole MVP')">MVP</button>
+            <button class="quick-q" onclick="sendQuickQ('Venduto all\'estero come funziona?')">Estero</button>
+          </div>
+          <!-- Messages -->
+          <div class="chat-messages" id="chatMessages">
+            <div class="chat-msg bot">
+              <div class="msg-author">🤖 BudBot</div>
+              Ciao! Sono il bot del regolamento Buddonsliga 2026/2027. Posso rispondere alle tue domande sulle regole: aste, svincoli, infortuni, ranking, MVP e molto altro. Cosa vuoi sapere?
+            </div>
+          </div>
+          <!-- Input -->
+          <div class="chat-input-area">
+            <input class="chat-input" id="chatInput" type="text" placeholder="Es: Come funzionano gli svincoli?" autocomplete="off"
+              onkeydown="if(event.key==='Enter')sendMsg()">
+            <button class="chat-send" onclick="sendMsg()">Invia ➤</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="warn-box" style="margin-top:16px;">
+        ⚠️ Il bot risponde basandosi sul testo del regolamento. Per qualsiasi dubbio, consulta sempre il PDF ufficiale.
+      </div>
+    </div>
+
+    <!-- TAB: PDF -->
+    <div class="tab-content" id="tc-pdf">
+      <div class="card" style="padding:20px;">
+        <div class="section-title"><span class="icon">📄</span> Regolamento Completo</div>
+        <iframe class="pdf-frame" src="RegolamentoBuddonsliga.pdf" title="Regolamento Buddonsliga"></iframe>
+        <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+          <a href="RegolamentoBuddonsliga.pdf" target="_blank" class="btn btn-primary">↗ Apri a schermo intero</a>
+          <a href="RegolamentoBuddonsliga.pdf" download class="btn btn-ghost">⬇ Scarica PDF</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p>© 2014–2026 Buddonsliga</p>
+    <div class="counter-wrap" style="opacity:0.35; margin-top:6px;">
+      <a href="http://www.contatore-visite.net/blog.php" target="_blank" rel="noopener">
+        <img alt="Contatore visite" src="http://www.contatore-visite.net/contatore.gif" style="border:none;height:16px;">
+      </a>
+    </div>
+  </footer>
+
+<script>
+/* ============================================================
+   KNOWLEDGE BASE – estratta dal RegolamentoBuddonsliga.pdf
+   ============================================================ */
+const KB = [
+  {
+    tags: ['svincolo','svincoli','scarta','scartare','crediti svincolo','guadagno','recupero'],
+    title: '📤 Svincoli',
+    text: `Ogni squadra nel periodo di mercato (15 giorni dall'asta estiva) può scartare qualunque giocatore prendendo uno dalla lista svincolati.
+
+**Come si calcolano i crediti recuperati:**
+
+• **Pagato ≥ quotazione attuale** → ricevi la quotazione attuale (QA)
+  _Formula: C = QA_
+
+• **Pagato < quotazione attuale** → ricevi il prezzo d'acquisto più la svalutazione/rivalutazione rispetto alla quota iniziale.
+  _Formula: C = A + (QA − QB)_
+  dove A = prezzo pagato, QB = quotazione all'acquisto, QA = quotazione attuale. I crediti minimi sono 1.
+
+**Casi speciali:**
+- 🌍 **Venduto all'estero** (pagato ≥ QA): max(A/2 , QA)
+- 💀 **Morte giocatore**: crediti al massimo calcolabile; se ≥ 30 crediti puoi prendere subito uno svincolato
+- 🤕 **Infortunio 3-6 mesi**: max(QA al momento infortunio, A × 50%)
+- 🤕 **Infortunio >6 mesi**: max(QA al momento infortunio, A × 60%)
+
+Uno svincolato può essere riacquistato solo a un prezzo ≥ al prezzo di scarto.`
+  },
+  {
+    tags: ['crediti','asta crediti','500','250','quanti crediti'],
+    title: '💰 Crediti nelle Aste',
+    text: `**Asta Estiva:** Ogni squadra ha **500 crediti** per comprare i giocatori.
+
+**Asta Invernale:** Ogni squadra riceve **250 crediti aggiuntivi** rispetto a quelli rimasti dall'asta estiva.
+
+**Rosa finale:** Ciascuna squadra deve avere esattamente 3 portieri, 8 difensori, 8 centrocampisti, 6 attaccanti e 1 under 21.`
+  },
+  {
+    tags: ['asta','aste','asta estiva','asta invernale','chiamata','offerta'],
+    title: '🏦 Aste',
+    text: `**Asta Estiva** (dopo fine mercato Serie A):
+- 500 crediti per squadra
+- Modalità casuale, ordine per ruolo (portieri → difensori → centrocampisti → attaccanti)
+- Software: Fantalab
+- Ogni squadra ha 2 chiamate totali in tutta l'asta (solo nel ruolo in corso, a 1 credito)
+- Tempo limite: 15 secondi per offerta
+- Alla fine di ogni ruolo, chi ha slot liberi fa asta a chiamata (ordine ranking)
+- Alla fine degli attaccanti: scelta gratuita dell'Under 21 (ordine ranking, 0 crediti)
+
+**Asta Invernale** (dopo mercato invernale Serie A):
+- +250 crediti aggiuntivi
+- Asta a chiamata (ordine ranking), ordine per ruolo
+- Dopo ogni acquisto la squadra comunica 1 giocatore da scartare
+- Non si può comprare e scartare lo stesso giocatore`
+  },
+  {
+    tags: ['mercato','scambi','svincolati','acquisto svincolati','mercato avvisi'],
+    title: '🔄 Mercato & Scambi',
+    text: `**Durata mercato:** 15 giorni dall'asta estiva (solo scambi permessi durante mercato invernale).
+
+**Acquisto svincolati:**
+- Richiesta nel gruppo "Mercato & Avvisi"
+- Serve la visualizzazione di almeno 1 componente per squadra (o 24h dalla richiesta)
+- La prima squadra che richiede è la prima offerente a 1 credito
+- Nelle ultime 24h → requisito scende a 12h
+- Nelle ultime 12h → ufficializzazione solo in "Mercato & Avvisi"
+
+**Scambi tra squadre:**
+- Solo giocatori dello stesso ruolo (o tra Under 21)
+- Validi anche scambi multipli
+- Si possono aggiungere crediti (attuali o di gennaio)
+- È permesso donare crediti senza giocatori`
+  },
+  {
+    tags: ['infortunio','infortuni','stop','mesi','recupero infortunio'],
+    title: '🤕 Infortuni',
+    text: `Se un giocatore si infortuna per **3+ mesi**, i crediti recuperati sono:
+
+- **3-6 mesi di stop:** max(quotazione al momento infortunio, prezzo acquisto × 50%)
+- **Oltre 6 mesi di stop:** max(quotazione al momento infortunio, prezzo acquisto × 60%)
+
+**Fonti per verificare i tempi** (in ordine di priorità):
+1. Fantacalcio.it
+2. SOS Fanta
+3. FantaLab
+4. Comunicato ufficiale della squadra
+
+Se le fonti indicano un intervallo (es. "3-4 mesi") → si usa il **valore minimo** (3 mesi).
+Se emergono info più precise successivamente → si applica la durata effettiva.`
+  },
+  {
+    tags: ['ranking','classifica storica','punti ranking'],
+    title: '📊 Ranking',
+    text: `Il Ranking Buddonsliga tiene conto dell'andamento storico di tutte le stagioni, con **maggiore peso agli ultimi 3 anni**.
+
+Si calcola con:
+1. **Punti totali** di ogni stagione
+2. **Punti posizionamento** (Tabella A: ultimi 3 anni, pesi maggiori; Tabella B: anni precedenti, pesi ridotti)
+3. **Punti bonus**: vincitore Buddonscup, finalista Buddonscup, detentore MVP
+
+Ogni anno, un anno passa da Tabella A a Tabella B e si perdono punti:
+1° -200 · 2° -150 · 3° -125 · 4° -100 · 5° -87,5 · 6° -75 · 7° -62,5 · 8° -50 · 9° -25 · 10° -0
+Plus: vincitore Cup -50, finalista Cup -25, MVP -15
+
+**A cosa serve il Ranking:**
+- Ordine chiamate asta estiva (slot finali per ruolo)
+- Ordine chiamate asta invernale
+- Ordine scelta Under 21
+- Qualsiasi gerarchia necessaria`
+  },
+  {
+    tags: ['mvp','miglior giocatore','voto mvp','votazione'],
+    title: '🎖️ MVP',
+    text: `A fine stagione i membri votano l'**MVP** (miglior giocatore della lega).
+
+Ogni squadra stila una classifica dei 5 migliori giocatori:
+- 1° posto → 10 punti
+- 2° posto → 8 punti
+- 3° posto → 6 punti
+- 4° posto → 4 punti
+- 5° posto → 2 punti
+
+La somma determina i 3 finalisti. Per l'ordine del podio finale si ricalcola escludendo le valutazioni delle squadre che possiedono i 3 giocatori.
+
+In caso di parità → vince chi è in posizione più arretrata. Stesso ruolo → passa chi ha la fantamedia più alta.`
+  },
+  {
+    tags: ['estero','venduto estero','trasferito estero','cessione estero'],
+    title: '🌍 Giocatore Venduto all\'Estero',
+    text: `Se un giocatore viene **venduto all'estero**, il recupero crediti cambia solo se è stato pagato **più (o uguale) alla quotazione attuale**:
+
+_C = max(A/2, QA)_
+(massimo tra metà prezzo pagato e quotazione attuale)
+
+Se invece è stato pagato **meno della quotazione attuale**, si applica la formula normale:
+_C = A + (QA − QB)_
+
+**Caso speciale asta estiva:** Se l'asta estiva viene fatta prima della fine del mercato Serie A e un giocatore viene ceduto all'estero nel periodo intermedio, si recuperano **tutti i crediti spesi**.`
+  },
+  {
+    tags: ['morte','decesso','giocatore morto'],
+    title: '💀 Morte di un Giocatore',
+    text: `In caso di **morte** di un giocatore, i crediti recuperati sono pari al **massimo calcolabile** con le formule normali di svincolo.
+
+Se i crediti calcolati sono **≥ 30**, la squadra ha diritto di prelevare **immediatamente** un giocatore dalla lista svincolati.`
+  },
+  {
+    tags: ['rosa','formazione','portieri','difensori','centrocampisti','attaccanti','under 21','u21'],
+    title: '👥 Composizione della Rosa',
+    text: `Ogni squadra deve avere esattamente:
+- 3 Portieri
+- 8 Difensori
+- 8 Centrocampisti
+- 6 Attaccanti
+- 1 Under 21 (pagato 0 crediti, scelto in ordine di ranking)
+
+Gli **Under 21** hanno le stesse regole di acquisto degli altri, ma solo le squadre posizionate sopra nel ranking possono acquistarlo (scartando il proprio U21).`
+  },
+  {
+    tags: ['buddonscup','coppa','cup','eliminazione diretta'],
+    title: '🥇 Buddonscup',
+    text: `La **Buddonscup** è la seconda competizione della Buddonsliga (coppa eliminazione diretta).
+
+Punti bonus ranking per:
+- Vincitore Buddonscup: +bonus asta (valore specifico nella tabella ranking)
+- Finalista non vincitore: bonus inferiore
+
+In caso di rinvio partita in coppa: si aspetta il recupero, tranne se il recupero di Serie A è programmato oltre la giornata del turno a eliminazione diretta.`
+  },
+  {
+    tags: ['bonus','malus','gol','modificatore','voti','punteggio'],
+    title: '⚽ Bonus & Malus – Punteggio',
+    text: `**Bonus/Malus principali (tutti i ruoli):**
+- Gol segnato: +3
+- Gol subito: -1
+- Rigore segnato: +3 | Rigore sbagliato: -3 | Rigore parato: +3
+- Ammonizione: -0,5 | Espulsione: -1 | Autogol: -2
+- Gol decisivo pareggio: +0,5
+- Portiere imbattuto: +1 (solo portiere)
+
+**Assist:** Assist tradizionale con "contributo al gol" (+0,5). Niente quality assist. Assist da fermo = assist in movimento = +1.
+
+**Soglia gol:** 66 punti per il primo gol; fasce successive con ampiezza progressiva.
+
+**Sostituzioni:** Max 5, solo con cambio ruolo (no cambio modulo). Niente riserva d'ufficio.
+
+**Fonte voti:** Statistico Alvin 482.`
+  },
+  {
+    tags: ['sondaggio','votazione regola','instagram','proposta'],
+    title: '🗳️ Sondaggi & Proposte',
+    text: `Ogni anno, in fase pre-asta e pre-campionato, ogni squadra può proporre modifiche al regolamento.
+
+Le proposte vengono votate entro 24h sulla pagina Instagram **"buddons.liga"**.
+
+In caso di **parità** vince la proposta che **non cambia** il regolamento rispetto all'anno precedente.`
+  }
+];
+
+/* ============================================================
+   CHATBOT ENGINE
+   ============================================================ */
+function findAnswer(q) {
+  const ql = q.toLowerCase()
+    .replace(/[àáâã]/g,'a').replace(/[èéêë]/g,'e')
+    .replace(/[ìíîï]/g,'i').replace(/[òóôõ]/g,'o')
+    .replace(/[ùúûü]/g,'u');
+
+  // Score each KB entry
+  let best = null, bestScore = 0;
+  for (const entry of KB) {
+    let score = 0;
+    for (const tag of entry.tags) {
+      const tl = tag.toLowerCase().replace(/[àáâãäåèéêëìíîïòóôõùúûü]/g, c => 'aeiou'['àáâãäåèéêëìíîïòóôõùúûü'.indexOf(c)] || c);
+      if (ql.includes(tl)) score += (tag.length > 5 ? 3 : 2);
+      // partial word match
+      const words = tl.split(' ');
+      for (const w of words) {
+        if (w.length >= 4 && ql.includes(w)) score += 1;
+      }
+    }
+    if (score > bestScore) { bestScore = score; best = entry; }
+  }
+
+  if (best && bestScore >= 2) {
+    return { title: best.title, text: best.text };
+  }
+
+  // Fallback: keyword-based search
+  if (/crediti|quanto|formula|calcol/i.test(q)) {
+    return { title: '💡 Crediti', text: KB[1].text };
+  }
+  if (/asta|offer|chiamat/i.test(q)) {
+    return { title: '🏦 Aste', text: KB[2].text };
+  }
+
+  return null;
+}
+
+function renderMarkdown(text) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/_(.*?)_/g, '<em>$1</em>')
+    .replace(/`(.*?)`/g, '<code style="background:rgba(255,255,255,0.1);border-radius:3px;padding:1px 4px;font-size:0.9em;">$1</code>')
+    .replace(/\n•/g, '<br>•')
+    .replace(/\n-/g, '<br>-')
+    .replace(/\n(\d+\.)/g, '<br>$1')
+    .replace(/\n/g, '<br>');
+}
+
+let isTyping = false;
+
+function addMsg(text, role, isMarkdown=false) {
+  const wrap = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = `chat-msg ${role}`;
+  const author = role === 'bot' ? '🤖 BudBot' : '👤 Tu';
+  div.innerHTML = `<div class="msg-author">${author}</div>${isMarkdown ? renderMarkdown(text) : text}`;
+  wrap.appendChild(div);
+  wrap.scrollTop = wrap.scrollHeight;
+  return div;
+}
+
+function showTyping() {
+  const wrap = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg bot';
+  div.id = 'typingIndicator';
+  div.innerHTML = `<div class="msg-author">🤖 BudBot</div><div class="typing-dots"><span></span><span></span><span></span></div>`;
+  wrap.appendChild(div);
+  wrap.scrollTop = wrap.scrollHeight;
+}
+
+function removeTyping() {
+  const el = document.getElementById('typingIndicator');
+  if (el) el.remove();
+}
+
+function sendMsg() {
+  if (isTyping) return;
+  const input = document.getElementById('chatInput');
+  const q = input.value.trim();
+  if (!q) return;
+  input.value = '';
+
+  addMsg(q, 'user');
+  isTyping = true;
+  showTyping();
+
+  setTimeout(() => {
+    removeTyping();
+    isTyping = false;
+    const ans = findAnswer(q);
+    if (ans) {
+      addMsg(`**${ans.title}**\n\n${ans.text}`, 'bot', true);
+    } else {
+      addMsg(`Non ho trovato una risposta precisa per "<em>${q}</em>".<br>Prova a usare una delle domande rapide in alto, oppure consulta il <a href="#" onclick="showTab('pdf');return false;" style="color:var(--primary-light);">PDF del regolamento</a>.`, 'bot', false);
+    }
+  }, 600 + Math.random()*400);
+}
+
+function sendQuickQ(q) {
+  document.getElementById('chatInput').value = q;
+  sendMsg();
+}
+
+/* ============================================================
+   TABS
+   ============================================================ */
+function showTab(name) {
+  document.querySelectorAll('.tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  document.getElementById('tab-'+name).setAttribute('aria-selected','true');
+  document.getElementById('tc-'+name).classList.add('active');
+}
+</script>
+
 </body>
 </html>

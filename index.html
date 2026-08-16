@@ -2,115 +2,256 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <title>Buddonsliga – Home</title>
+  <title>Buddonsliga – Lega Fantacalcio Ufficiale</title>
+  <meta name="description" content="Il sito ufficiale della lega fantacalcio Buddonsliga. Regolamento, classifica, albo d'oro e calcolatrice crediti.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f7fafc;
-      margin: 0;
-      padding: 0;
-      color: #222;
+    /* ── Home-specific extras ── */
+    .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 40px;
     }
-    header {
-      background: linear-gradient(90deg, #0056b3 0%, #0099ff 100%);
-      color: #fff;
-      padding: 30px 10px 20px 10px;
+
+    .feature-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 24px 20px;
       text-align: center;
-      border-bottom: 2px solid #004080;
+      transition: all var(--transition);
+      text-decoration: none;
+      display: block;
+      color: inherit;
     }
-    nav {
-      background: #004080;
+
+    .feature-card:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: var(--border);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .feature-card .feat-icon {
+      font-size: 2.2rem;
+      display: block;
+      margin-bottom: 12px;
+      transition: transform var(--transition);
+    }
+
+    .feature-card:hover .feat-icon { transform: scale(1.15); }
+
+    .feature-card h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .feature-card p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .feature-card.highlighted {
+      border-color: var(--border-gold);
+      background: rgba(251,191,36,0.05);
+    }
+
+    .feature-card.highlighted:hover {
+      background: rgba(251,191,36,0.08);
+      border-color: rgba(251,191,36,0.5);
+    }
+
+    /* Squadra badge */
+    .teams-section { margin-top: 48px; }
+    .teams-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .teams-grid {
       display: flex;
       flex-wrap: wrap;
+      gap: 8px;
       justify-content: center;
-      padding: 0;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
     }
-    nav a {
-      color: #fff;
-      margin: 0 18px;
-      padding: 12px 0;
-      text-decoration: none;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      border-bottom: 2px solid transparent;
-      transition: border-bottom 0.2s, color 0.2s;
-      font-size: 18px;
+    .team-badge {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      transition: all var(--transition);
+      white-space: nowrap;
     }
-    nav a:hover, nav a:focus {
-      border-bottom: 2px solid #ffdf00;
-      color: #ffdf00;
+    .team-badge:hover {
+      background: rgba(255,255,255,0.08);
+      color: var(--text-main);
+      border-color: var(--border);
     }
-    main {
-      max-width: 700px;
-      margin: 36px auto;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.07);
-      padding: 32px 18px;
-      text-align: center;
+
+    /* Decorative orbs */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      opacity: 0.5;
     }
-    .logo {
-      display: block;
-      margin: 0 auto 20px auto;
-      max-width: 120px;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    .orb-1 { width: 400px; height: 400px; background: #1a73e8; top: -100px; left: -100px; z-index: 0; opacity: 0.06; }
+    .orb-2 { width: 300px; height: 300px; background: #fbbf24; top: 100px; right: -100px; z-index: 0; opacity: 0.05; }
+
+    .counter-wrap {
+      margin-top: 12px;
+      opacity: 0.45;
+      transition: opacity var(--transition);
     }
-    h1 {
-      font-size: 2.1em;
-      margin-bottom: 12px;
-      color: #294988;
-      letter-spacing: 0.04em;
-    }
-    h2 {
-      color: #0366d6;
-      margin-top: 24px;
-    }
-    p {
-      line-height: 1.6;
-      font-size: 1.13em;
-      margin-bottom: 22px;
-    }
-    @media (max-width: 650px) {
-      nav a { margin: 0 10px; font-size: 16px; }
-      main { padding: 18px 5px; }
-      h1 { font-size: 1.3em; }
-    }
+    .counter-wrap:hover { opacity: 0.75; }
   </style>
 </head>
 <body>
-  <header>
-    <!-- Qui puoi caricare e linkare il logo della tua lega -->
-    <!-- <img src="logo.png" alt="Logo Buddonsliga" class="logo"> -->
-    <h1>Buddonsliga – Lega Fantacalcio</h1>
-    <p>Il sito ufficiale della tua Lega. Regolamento, strumenti, albo d'oro e ranking, sempre aggiornati!</p>
-  </header>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="regolamento.html">ChatBot Regolamento</a>
-    <a href="crediti.html">Calcolo Crediti</a>
-    <a href="albo.html">Albo d'Oro</a>
-    <a href="ranking.html">Ranking</a>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="navbar-brand">
+      <span class="brand-icon">⚽</span>
+      <span class="brand-name">Buddonsliga</span>
+    </a>
+    <div class="navbar-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="regolamento.html">Regolamento</a>
+      <a href="crediti.html">Crediti</a>
+      <a href="albo.html">Albo d'Oro</a>
+      <a href="ranking.html">Ranking</a>
+    </div>
   </nav>
-  <main>
-    <h2>Benvenuto!</h2>
-    <p>
-      Qui trovi tutte le informazioni e gli strumenti per gestire e seguire la tua Lega Buddonsliga:<br>
-      – <strong>Regolamento aggiornato</strong> (PDF e bot domande/risposte)<br>
-      – <strong>Calcolatrice crediti intelligente</strong> per svincoli e scambi<br>
-      – <strong>Tabelle albo d’oro</strong> e <strong>ranking live</strong>
+
+  <!-- HERO -->
+  <section class="hero" style="position:relative;">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="hero-eyebrow" style="position:relative;z-index:1;">
+      ⚽ Lega Fantacalcio · Dal 2014 · 12 Stagioni completate
+    </div>
+    <h1 style="position:relative;z-index:1;">Buddonsliga</h1>
+    <p style="position:relative;z-index:1;">
+      Il sito ufficiale della lega. Regolamento interattivo, calcolatrice crediti, albo d'oro e ranking aggiornato.
     </p>
-    <p>
-      Naviga dalle voci in alto oppure dalla tua barra dei preferiti su smartphone!<br>
-      <em>Buon divertimento e che vinca il migliore!</em>
-    </p>
-    <footer style="width:100%; text-align:center; margin-top:30px; padding:16px 0; font-size:0.8em; color:#666;">
-  <div>Contatore visite</div>
-  <a href="http://www.contatore-visite.net/blog.php" target="_blank">
-    <img alt="Guest blogging" src="http://www.contatore-visite.net/contatore.gif" border="0">
-  </a>
-</footer>
-  </main>
+    <div class="hero-cta" style="position:relative;z-index:1;">
+      <a href="regolamento.html" class="btn btn-primary">📋 Regolamento</a>
+      <a href="crediti.html" class="btn btn-gold">💰 Calcola Crediti</a>
+      <a href="ranking.html" class="btn btn-ghost">📊 Ranking</a>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <div class="container">
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-icon">⚽</span>
+        <div class="stat-value">10</div>
+        <div class="stat-label">Squadre</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">🏆</span>
+        <div class="stat-value">12</div>
+        <div class="stat-label">Stagioni</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">🥇</span>
+        <div class="stat-value">500</div>
+        <div class="stat-label">Crediti asta</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">📅</span>
+        <div class="stat-value">2026/27</div>
+        <div class="stat-label">13ª Stagione</div>
+      </div>
+    </div>
+
+    <!-- Feature cards -->
+    <div class="section-title">
+      <span class="icon">🗺️</span> Esplora il sito
+    </div>
+
+    <div class="feature-grid">
+      <a href="regolamento.html" class="feature-card highlighted">
+        <span class="feat-icon">📋</span>
+        <h3>Regolamento</h3>
+        <p>Leggi il regolamento completo e chatta col bot per domande rapide</p>
+      </a>
+      <a href="crediti.html" class="feature-card">
+        <span class="feat-icon">💰</span>
+        <h3>Calcolo Crediti</h3>
+        <p>Calcola esattamente i crediti recuperati da uno svincolo o infortunio</p>
+      </a>
+      <a href="albo.html" class="feature-card">
+        <span class="feat-icon">🏆</span>
+        <h3>Albo d'Oro</h3>
+        <p>Tutti i vincitori storici di Buddonsliga, Buddonscup e MVP</p>
+      </a>
+      <a href="ranking.html" class="feature-card">
+        <span class="feat-icon">📊</span>
+        <h3>Ranking</h3>
+        <p>La classifica storica aggiornata con punteggio cumulativo</p>
+      </a>
+    </div>
+
+    <!-- Download rapido -->
+    <div class="card" style="margin-top:32px; background:linear-gradient(135deg, rgba(26,115,232,0.08), rgba(251,191,36,0.05)); border-color:rgba(26,115,232,0.2);">
+      <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap; justify-content:space-between;">
+        <div>
+          <div style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-dim); margin-bottom:3px;">Dati Ranking 2025/2026</div>
+          <div style="font-weight:700; color:var(--text-main);">📊 Scarica Excel o PDF del Ranking</div>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <a href="RANKING%20BUDDONSLIGA.xlsx" download class="btn btn-primary" style="font-size:0.85rem; padding:10px 18px;">📊 Excel</a>
+          <a href="RANKING%20BUDDONSLIGA.pdf" target="_blank" class="btn btn-gold" style="font-size:0.85rem; padding:10px 18px;">📄 PDF</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Teams -->
+    <div class="teams-section">
+      <div class="teams-title">Le 10 squadre della lega</div>
+      <div class="teams-grid">
+        <span class="team-badge">🚀 Banana Dream Team</span>
+        <span class="team-badge">⚡ Benevengo FC</span>
+        <span class="team-badge">💥 Bomber Moscardelli</span>
+        <span class="team-badge">👑 Colimaster</span>
+        <span class="team-badge">🏛️ Gli Argonauti</span>
+        <span class="team-badge">🌟 Mimi &amp; Coco</span>
+        <span class="team-badge">🏔️ Monte Urpinu FC</span>
+        <span class="team-badge">🦈 Pescara Manzia</span>
+        <span class="team-badge">🌊 Sestu FC</span>
+        <span class="team-badge">⚔️ Stratiotai</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p>© 2014–2026 Buddonsliga · La lega fantacalcio degli amici</p>
+    <div class="counter-wrap">
+      <a href="http://www.contatore-visite.net/blog.php" target="_blank" rel="noopener">
+        <img alt="Contatore visite" src="http://www.contatore-visite.net/contatore.gif" style="border:none;height:16px;">
+      </a>
+    </div>
+  </footer>
+
 </body>
 </html>

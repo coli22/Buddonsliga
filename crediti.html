@@ -1,261 +1,398 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
-  <title>Calcolo Crediti</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calcolo Crediti – Buddonsliga</title>
+  <meta name="description" content="Calcola i crediti recuperati da uno svincolo nella Buddonsliga. Formula corretta dal regolamento ufficiale.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f7fafc;
+    .formula-box {
+      background: rgba(139,92,246,0.06);
+      border: 1px solid rgba(139,92,246,0.2);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      font-size: 0.83rem;
+      color: #c4b5fd;
+      font-family: 'Courier New', monospace;
+      margin-top: 8px;
+      display: none;
+    }
+    .formula-box.visible { display: block; }
+
+    .step-list {
+      list-style: none;
+      padding: 0;
       margin: 0;
-      padding: 0;
-      color: #222;
-    }
-    nav {
-      background: #004080;
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 0;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+      flex-direction: column;
+      gap: 8px;
     }
-    nav a {
-      color: #fff;
-      margin: 0 18px;
-      padding: 12px 0;
-      text-decoration: none;
-      font-weight: 600;
-      border-bottom: 2px solid transparent;
-      transition: border-bottom 0.2s, color 0.2s;
-      font-size: 18px;
-    }
-    nav a:hover, nav a:focus {
-      border-bottom: 2px solid #ffdf00;
-      color: #ffdf00;
-    }
-    main {
-      max-width: 700px;
-      margin: 28px auto 24px auto;
-      background: #fff;
-      border-radius: 13px;
-      box-shadow: 0 3px 16px rgba(0,0,0,0.08);
-      padding: 18px 10px 30px 10px;
-      text-align: center;
-    }
-    h1 {
-      font-size: 2em;
-      margin-bottom: 16px;
-      color: #294988;
-      letter-spacing: 0.04em;
-    }
-    .istruzioni {
-      background: #fcfdd7;
-      border: 1.5px solid #e4d400;
-      color: #775000;
-      font-weight: 500;
-      padding: 20px 16px 13px 16px;
-      margin: 0 auto 30px auto;
-      font-size: 1.08em;
-      border-radius: 8px;
-      text-align: left;
-      box-shadow: 0 1.5px 6px rgba(240,200,40,0.08);
-      max-width: 520px;
-    }
-    .istruzioni strong, .istruzioni ul {
-      color: #294988;
-      margin-bottom: 6px;
-    }
-    form {
-      background: #f4f8ff;
-      border: 1px solid #b7c4e4;
-      border-radius: 10px;
-      max-width: 350px;
-      margin: 0 auto 24px auto;
-      padding: 26px 11px 14px 11px;
-      text-align: left;
-      font-size: 1.09em;
-      box-shadow: 0 1.5px 6px rgba(40,90,250,0.08);
-    }
-    label {
-      display: block;
-      margin-bottom: 15px;
-      font-weight: 500;
-    }
-    select, input[type=number] {
-      width: 100%;
-      font-size: 1em;
-      padding: 6px 7px;
-      margin-top: 5px;
-      margin-bottom: 2px;
-      border-radius: 3px;
-      border: 1px solid #c0ccee;
-      box-sizing: border-box;
-    }
-    .risultato {
-      font-size: 1.24em;
-      margin: 24px auto 0 auto;
-      background: linear-gradient(90deg,#fffde7 40%,#fff7b3 100%);
-      border: 2px solid #ffe066;
-      border-radius: 12px;
+    .step-list li {
       display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      padding: 8px 12px;
+      background: rgba(255,255,255,0.03);
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      transition: all var(--transition);
+    }
+    .step-list li.active {
+      color: var(--text-main);
+      border-color: rgba(26,115,232,0.2);
+      background: rgba(26,115,232,0.06);
+    }
+    .step-list li .step-n {
+      display: inline-flex;
       align-items: center;
       justify-content: center;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: rgba(26,115,232,0.2);
+      color: var(--primary-light);
+      font-size: 0.72rem;
       font-weight: 700;
-      color: #715600;
-      min-height: 52px;
-      width: 100%;
-      max-width: 380px;
-      box-shadow: 0 2px 6px rgba(220,180,0,0.06);
-      text-align: center;
-      word-break: break-word;
-      padding: 18px 2vw;
-      transition: background 0.2s;
-      box-sizing: border-box;
+      flex-shrink: 0;
     }
-    ul {
-      text-align: left;
-      margin: 19px auto 10px auto;
-      max-width: 520px;
-      color: #244528;
-      font-size: 1em;
-      padding-left: 21px;
-      line-height:1.45;
+    .step-list li.active .step-n {
+      background: var(--primary);
+      color: #fff;
     }
-    @media (max-width: 650px) {
-      nav a { margin: 0 7px; font-size: 15px; }
-      main { padding:6px 1vw 19px 1vw; margin: 15px auto 8px auto; }
-      h1 { font-size: 1.2em; }
-      form { max-width: 98vw; padding: 10px 4vw; }
-      .istruzioni, ul { font-size: 0.99em;}
-      .risultato { font-size: 1.13em; min-width: 88vw; max-width:98vw; padding: 14px 2vw;}
+
+    .scenario-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
     }
-    @media (max-width: 400px) {
-      .risultato{font-size:0.99em;}
+    .scenario-pill {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 999px;
+      color: var(--text-muted);
+      padding: 7px 16px;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+    }
+    .scenario-pill:hover { color: var(--text-main); background: rgba(255,255,255,0.06); }
+    .scenario-pill.active {
+      background: rgba(26,115,232,0.15);
+      border-color: var(--primary);
+      color: var(--primary-light);
+      font-weight: 600;
+    }
+
+    .result-animate {
+      animation: resultPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes resultPop {
+      from { transform: scale(0.92); opacity: 0.5; }
+      to   { transform: scale(1);    opacity: 1; }
     }
   </style>
 </head>
 <body>
-  <nav>
-    <a href="index.html">Home</a> |
-    <a href="regolamento.html">Regolamento</a> |
-    <a href="crediti.html">Calcolo Crediti</a> |
-    <a href="albo.html">Albo d'Oro</a> |
-    <a href="ranking.html">Ranking</a>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="navbar-brand">
+      <span class="brand-icon">⚽</span>
+      <span class="brand-name">Buddonsliga</span>
+    </a>
+    <div class="navbar-links">
+      <a href="index.html">Home</a>
+      <a href="regolamento.html">Regolamento</a>
+      <a href="crediti.html" class="active">Crediti</a>
+      <a href="albo.html">Albo d'Oro</a>
+      <a href="ranking.html">Ranking</a>
+    </div>
   </nav>
-  <main>
-    <h1>Calcola i crediti guadagnati con uno svincolo</h1>
-    <div class="istruzioni">
-      <strong>Come trovare la quotazione attuale del calciatore:</strong>
-      <ul>
-        <li>Apri l’app Fantacalcio e cerca il calciatore desiderato.</li>
-        <li>Per la <strong>quotazione all'acquisto</strong>, considera il giorno di asta <b>o</b> la data ufficiale del trasferimento (presente in “Mercato & Avvisi”).</li>
-        <li>Confronta la data con il calendario della Serie A: se il giorno è “durante” una giornata di campionato <b>[G]</b>, usa la quotazione della giornata <b>precedente</b>.</li>
-        <li><b>Esempio pratico:</b> se compri Messi il 23/09 durante la 3ª giornata, prendi il prezzo della 2ª giornata.</li>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">💰 Calcolatrice Ufficiale · Regolamento 2026/2027</div>
+    <h1>Calcolo Crediti Svincolo</h1>
+    <p>Inserisci i dati del giocatore e calcola automaticamente i crediti recuperati, con la formula esatta dal regolamento.</p>
+  </section>
+
+  <div class="container-sm">
+
+    <!-- SCENARIO SELECTOR -->
+    <div class="scenario-pills">
+      <button class="scenario-pill active" id="pill-normale" onclick="setCaso('normale')">⚽ Svincolo normale</button>
+      <button class="scenario-pill" id="pill-estero" onclick="setCaso('estero')">🌍 Venduto all'estero</button>
+      <button class="scenario-pill" id="pill-infortunio" onclick="setCaso('infortunio')">🤕 Infortunio 3+ mesi</button>
+      <button class="scenario-pill" id="pill-morte" onclick="setCaso('morte')">💀 Morte giocatore</button>
+    </div>
+
+    <!-- INFO BOX per scenario -->
+    <div class="info-box" id="scenarioInfo">
+      <strong>Svincolo normale:</strong> Se hai pagato ≥ quotazione attuale, recuperi la quota attuale. Se hai pagato meno, recuperi il prezzo pagato più la variazione rispetto alla quota iniziale.
+    </div>
+
+    <!-- FORM -->
+    <div class="card">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;" class="form-grid">
+        <div class="form-group">
+          <label class="form-label" for="A">💳 Prezzo d'acquisto (A)</label>
+          <input class="form-input" id="A" type="number" min="1" value="25" oninput="updateResult()">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="QB">📊 Quota all'acquisto (QB)</label>
+          <input class="form-input" id="QB" type="number" min="1" value="20" oninput="updateResult()">
+        </div>
+        <div class="form-group" id="qa-group">
+          <label class="form-label" for="QA" id="qa-label">📈 Quotazione attuale (QA)</label>
+          <input class="form-input" id="QA" type="number" min="0" value="22" oninput="updateResult()">
+        </div>
+        <div class="form-group" id="mesi-group" style="display:none;">
+          <label class="form-label" for="mesiStop">🗓️ Mesi di stop</label>
+          <input class="form-input" id="mesiStop" type="number" min="3" max="24" value="4" oninput="updateResult()">
+        </div>
+      </div>
+
+      <!-- Come leggere la quota -->
+      <div class="warn-box" style="margin-top:4px;">
+        <strong>Come trovare la quotazione:</strong> Apri Fantacalcio app → cerca il giocatore. Se il trasferimento avviene durante una giornata di campionato, usa la quotazione della giornata <em>precedente</em>.
+      </div>
+    </div>
+
+    <!-- RISULTATO -->
+    <div class="result-box" id="resultBox" style="margin-top:20px;">
+      <div class="result-label">Crediti Recuperati</div>
+      <div class="result-value" id="resultValue">—</div>
+      <div class="result-formula" id="resultFormula"></div>
+    </div>
+
+    <!-- FORMULA DETTAGLIO -->
+    <div class="formula-box" id="formulaDetail"></div>
+
+    <!-- STEP BY STEP -->
+    <div class="card" style="margin-top:20px;">
+      <div class="section-title" style="margin-bottom:16px; font-size:1rem;">
+        <span>🔢</span> Calcolo Passo-Passo
+      </div>
+      <ul class="step-list" id="stepList"></ul>
+    </div>
+
+    <!-- REGOLE QUICK REF -->
+    <div class="card" style="margin-top:20px;">
+      <div class="section-title" style="margin-bottom:16px; font-size:1rem;">
+        <span>📋</span> Riepilogo Regole
+      </div>
+      <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:8px; font-size:0.83rem; color:var(--text-muted);">
+        <li>⚽ <strong style="color:var(--text-main)">Normale (pagato ≥ QA):</strong> C = QA</li>
+        <li>⚽ <strong style="color:var(--text-main)">Normale (pagato &lt; QA):</strong> C = A + (QA − QB) · min 1 credito</li>
+        <li>🌍 <strong style="color:var(--text-main)">Estero (pagato ≥ QA):</strong> C = max(A÷2, QA)</li>
+        <li>🌍 <strong style="color:var(--text-main)">Estero (pagato &lt; QA):</strong> C = A + (QA − QB) · formula normale</li>
+        <li>🤕 <strong style="color:var(--text-main)">Infortunio 3-6 mesi:</strong> C = max(QA infortunio, A×50%)</li>
+        <li>🤕 <strong style="color:var(--text-main)">Infortunio &gt;6 mesi:</strong> C = max(QA infortunio, A×60%)</li>
+        <li>💀 <strong style="color:var(--text-main)">Morte:</strong> max formula normale; se ≥30 puoi prendere uno svincolato</li>
       </ul>
     </div>
-    <form oninput="updateResult()" id="calcolatrice-crediti" novalidate autocomplete="off">
-      <label>Prezzo d’acquisto:
-        <input id="A" type="number" min="1" required value="1" placeholder="Prezzo pagato per il giocatore" />
-      </label>
-      <label>Quotazione all’acquisto:
-        <input id="QB" type="number" min="1" required value="1" placeholder="Prezzo ufficiale all'acquisto" />
-      </label>
-      <label>Quotazione attuale:
-        <input id="QA" type="number" min="0" required value="1" placeholder="Quota oggi" />
-      </label>
-      <label>Situazione:
-        <select id="caso" onchange="updateResult()">
-          <option value="normale">Normale</option>
-          <option value="estero">Venduto all’estero</option>
-          <option value="morte">Morte giocatore</option>
-          <option value="infortunio">Infortunio grave (3+ mesi)</option>
-        </select>
-      </label>
-      <label id="info-infortunio" style="display:none;">
-        Mesi di stop confermati/diagnosi:
-        <input id="mesiStop" type="number" min="3" max="24" value="3" />
-        <small>(Segui prima Fantacalcio.it, poi SOS Fanta, poi FantaLab, poi comunicato squadra. N.B AL POSTO DI QUOTAZIONE ATTUALE INSERISCI QUOTAZIONE AL MOMENTO DELL'INFORTUNIO.</small>
-      </label>
-    </form>
-    <div class="risultato" id="result"></div>
-    <ul>
-      <li><b>Per infortuni:</b> usa la durata effettiva appena nota, e se l'intervallo è "3-4 mesi" considera <b>minimo</b> (qui: 3).</li>
-      <li>Svincolando per vendita all'estero: massimo tra metà prezzo pagato e quotazione attuale.</li>
-      <li>Decesso: massimo tra quotazione attuale e formula svincolo; se crediti ≥ 30 puoi acquistare subito uno svincolato.</li>
-      <li>Svalutazione/rivalutazione: puoi guadagnare o perdere crediti rispetto all’asta - vedi calcolatrice qui sopra.</li>
-    </ul>
-  </main>
-  <script>
-    function updateResult() {
-      var A = parseFloat(document.getElementById('A').value);
-      var QB = parseFloat(document.getElementById('QB').value);
-      var QA = parseFloat(document.getElementById('QA').value);
-      var caso = document.getElementById('caso').value;
-      var mesiStopEl = document.getElementById('mesiStop');
-      var mesiStop = mesiStopEl ? parseFloat(mesiStopEl.value) : 0;
 
-      // Validazione campi
-      if (isNaN(A) || isNaN(QB) || isNaN(QA) || (caso === "infortunio" && (isNaN(mesiStop) || mesiStop < 3))) {
-        document.getElementById('result').innerHTML = '<span style="color:#b82d0d;">Completa tutti i campi con valori validi!</span>';
-        document.getElementById('info-infortunio').style.display = (caso === "infortunio") ? "block" : "none";
-        return;
-      }
-      document.getElementById('info-infortunio').style.display = (caso === "infortunio") ? "block" : "none";
+  </div>
 
-      let crediti = 1;
-      let extraMsg = "";
-      // QB = quotazione all'acquisto; QA= quotazione attuale
-      if (caso === "normale") {
-        if (A >= QB) {
-          crediti = QA;
-        } else {
-          // Caso specifico: rivalutazione/svalutazione in base a QA vs QB
-          if (QA >= QB) {
-            crediti = A + (QA - QB);
-          } else {
-            crediti = A - (QB - QA);
-          }
-        }
-      } else if (caso === "estero") {
-        if (A >= QA) {
-          crediti = Math.max(Math.floor(A / 2), QA);
-        } else {
-          // Caso specifico: rivalutazione/svalutazione in base a QA vs QB
-          if (QA >= QB) {
-            crediti = A + (QA - QB);
-          } else {
-            crediti = A - (QB - QA);
-          }
-        }
-      } else if (caso === "morte") {
-        crediti = Math.max(Math.floor(A / 2), QA);
-        if (crediti >= 30) {
-          extraMsg = "<br><b>Puoi subito prendere uno svincolato!</b>";
-        }
-      } else if (caso === "infortunio") {
-        if (mesiStop >= 3 && mesiStop <= 6) {
-          crediti = Math.max(QA, Math.round(A * 0.5));
-          extraMsg = "<br>(50% del prezzo d'acquisto o quotazione all’infortunio)";
-        } else if (mesiStop > 6) {
-          crediti = Math.max(QA, Math.round(A * 0.6));
-          extraMsg = "<br>(60% del prezzo d'acquisto o quotazione all’infortunio)";
-        } else {
-          crediti = "Infortunio inferiore a 3 mesi, si usa la regola normale";
-          extraMsg = "<br>(Infortunio inferiore a 3 mesi, si usa la regola normale)";
-        }
-      }
-      document.getElementById('result').innerHTML = "Crediti guadagnati: <b>" + crediti + "</b>" + extraMsg;
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p>© 2014–2026 Buddonsliga</p>
+    <div class="counter-wrap" style="opacity:0.35; margin-top:6px;">
+      <a href="http://www.contatore-visite.net/blog.php" target="_blank" rel="noopener">
+        <img alt="Contatore visite" src="http://www.contatore-visite.net/contatore.gif" style="border:none;height:16px;">
+      </a>
+    </div>
+  </footer>
+
+<script>
+  let currentCaso = 'normale';
+
+  const scenarioInfo = {
+    normale: '<strong>Svincolo normale:</strong> Se hai pagato ≥ quotazione attuale → recuperi la quota attuale (QA). Se hai pagato meno → recuperi A + (QA − QB). Minimo: 1 credito.',
+    estero: '<strong>Venduto all\'estero:</strong> Se hai pagato ≥ QA → max(A÷2, QA). Se hai pagato meno → formula normale. <em>Caso speciale: se venduto prima della fine del mercato estivo (dopo asta estiva) → tutti i crediti.</em>',
+    infortunio: '<strong>Infortunio 3+ mesi:</strong> Inserisci la <em>quotazione al momento dell\'infortunio</em> nel campo QA. Stop 3-6 mesi → max(QA, A×50%). Stop >6 mesi → max(QA, A×60%). Se le fonti danno un intervallo, usa il minimo.',
+    morte: '<strong>Morte giocatore:</strong> Crediti pari al massimo calcolabile con la formula normale. Se il risultato è ≥ 30 crediti, la squadra può prelevare subito uno svincolato.',
+  };
+
+  function setCaso(c) {
+    currentCaso = c;
+    // Update pills
+    document.querySelectorAll('.scenario-pill').forEach(p => p.classList.remove('active'));
+    document.getElementById('pill-' + c).classList.add('active');
+    // Info box
+    document.getElementById('scenarioInfo').innerHTML = scenarioInfo[c];
+    // Show/hide mesi
+    const showMesi = c === 'infortunio';
+    document.getElementById('mesi-group').style.display = showMesi ? '' : 'none';
+    // Update QA label
+    document.getElementById('qa-label').textContent = c === 'infortunio'
+      ? '📈 Quota al momento infortunio (QA)'
+      : '📈 Quotazione attuale (QA)';
+    updateResult();
+  }
+
+  function setStep(steps, activeIdx) {
+    const ul = document.getElementById('stepList');
+    ul.innerHTML = '';
+    steps.forEach((s, i) => {
+      const li = document.createElement('li');
+      if (i === activeIdx) li.classList.add('active');
+      li.innerHTML = `<span class="step-n">${i+1}</span><span>${s}</span>`;
+      ul.appendChild(li);
+    });
+  }
+
+  function showResult(crediti, formula, note) {
+    const box = document.getElementById('resultBox');
+    const val = document.getElementById('resultValue');
+    const fml = document.getElementById('resultFormula');
+    const det = document.getElementById('formulaDetail');
+
+    box.classList.remove('result-animate');
+    void box.offsetWidth; // reflow
+    box.classList.add('result-animate');
+
+    if (typeof crediti === 'number') {
+      val.textContent = Math.max(1, crediti).toLocaleString('it-IT', {minimumFractionDigits: crediti % 1 !== 0 ? 1 : 0});
+    } else {
+      val.textContent = crediti;
+    }
+    fml.textContent = formula || '';
+    if (note) {
+      det.textContent = note;
+      det.classList.add('visible');
+    } else {
+      det.classList.remove('visible');
+      det.textContent = '';
+    }
+  }
+
+  function updateResult() {
+    const A  = parseFloat(document.getElementById('A').value)  || 0;
+    const QB = parseFloat(document.getElementById('QB').value) || 0;
+    const QA = parseFloat(document.getElementById('QA').value) || 0;
+    const mesi = parseFloat(document.getElementById('mesiStop').value) || 0;
+
+    if (A <= 0 || QB <= 0) {
+      showResult('—', 'Inserisci valori validi', null);
+      setStep(['Inserisci prezzo d\'acquisto (A)', 'Inserisci quotazione all\'acquisto (QB)', 'Inserisci quotazione attuale (QA)'], -1);
+      return;
     }
 
-    updateResult();
-  </script>
-  <footer style="width:100%; text-align:center; margin-top:30px; padding:16px 0; font-size:0.8em; color:#666;">
-  <div>Contatore visite</div>
-  <a href="http://www.contatore-visite.net/blog.php" target="_blank">
-    <img alt="Guest blogging" src="http://www.contatore-visite.net/contatore.gif" border="0">
-  </a>
-</footer>
+    let crediti = 1, formula = '', note = null;
+
+    if (currentCaso === 'normale') {
+      const steps = [
+        `Confronto: A (${A}) vs QA (${QA})`,
+        '',
+        'Verifica minimo: crediti ≥ 1'
+      ];
+      if (A >= QA) {
+        // Pagato più della quota attuale
+        crediti = QA;
+        formula = `C = QA = ${QA}`;
+        steps[1] = `A ≥ QA → C = QA = ${QA}`;
+        setStep(steps, 1);
+      } else {
+        // Pagato meno → rivalutazione/svalutazione
+        crediti = A + (QA - QB);
+        crediti = Math.max(1, crediti);
+        formula = `C = A + (QA − QB) = ${A} + (${QA} − ${QB}) = ${A} + (${QA - QB}) = ${crediti}`;
+        steps[1] = `A < QA → C = A + (QA − QB) = ${A} + ${(QA-QB).toFixed(1)}`;
+        const diff = QA - QB;
+        note = diff >= 0
+          ? `Il giocatore si è rivalutato di ${diff.toFixed(1)} crediti rispetto alla quota d'acquisto.`
+          : `Il giocatore si è svalutato di ${Math.abs(diff).toFixed(1)} crediti rispetto alla quota d'acquisto.`;
+        setStep(steps, 1);
+      }
+
+    } else if (currentCaso === 'estero') {
+      const steps = [
+        `Confronto: A (${A}) vs QA (${QA})`,
+        '',
+        'Applicazione formula estero / normale',
+        'Verifica minimo: crediti ≥ 1'
+      ];
+      if (A >= QA) {
+        // Venduto estero + pagato più della quota
+        const metaA = Math.floor(A / 2);
+        crediti = Math.max(metaA, QA);
+        formula = `C = max(A÷2, QA) = max(${metaA}, ${QA}) = ${crediti}`;
+        steps[1] = `A ≥ QA → formula estero`;
+        steps[2] = `max(${A}÷2, ${QA}) = max(${metaA}, ${QA}) = ${crediti}`;
+        setStep(steps, 2);
+      } else {
+        // Venduto estero + pagato meno → formula normale
+        crediti = Math.max(1, A + (QA - QB));
+        formula = `C = A + (QA − QB) = ${A} + (${QA} − ${QB}) = ${crediti}`;
+        steps[1] = `A < QA → si usa formula normale`;
+        steps[2] = `C = A + (QA − QB) = ${crediti}`;
+        setStep(steps, 2);
+      }
+
+    } else if (currentCaso === 'infortunio') {
+      if (mesi < 3) {
+        showResult('< 3 mesi', 'Stop inferiore a 3 mesi → usa svincolo normale', null);
+        setStep([`Stop dichiarato: ${mesi} mesi`, 'Meno di 3 mesi → regola normale (non infortunio)'], 1);
+        return;
+      }
+      const steps = [
+        `Stop: ${mesi} mesi`,
+        '',
+        `Calcolo percentuale su A (${A})`,
+        `Confronto con QA al momento infortunio (${QA})`,
+        `C = max(...)`
+      ];
+      let pct, pctLabel;
+      if (mesi >= 3 && mesi <= 6) {
+        pct = 0.5; pctLabel = '50%';
+        steps[1] = `3-6 mesi → percentuale 50%`;
+      } else {
+        pct = 0.6; pctLabel = '60%';
+        steps[1] = `>6 mesi → percentuale 60%`;
+      }
+      const pctVal = Math.round(A * pct);
+      crediti = Math.max(QA, pctVal);
+      steps[2] = `A × ${pctLabel} = ${A} × ${pctLabel} = ${pctVal}`;
+      steps[3] = `QA infortunio = ${QA}`;
+      steps[4] = `C = max(${QA}, ${pctVal}) = ${crediti}`;
+      formula = `C = max(QA, A×${pctLabel}) = max(${QA}, ${pctVal}) = ${crediti}`;
+      note = `Fonti da consultare in ordine: Fantacalcio.it → SOS Fanta → FantaLab → comunicato squadra. Se intervallo (es. "3-4 mesi"), usa il valore minimo.`;
+      setStep(steps, 4);
+
+    } else if (currentCaso === 'morte') {
+      // Formula normale prima
+      let creditiBase;
+      if (A >= QA) {
+        creditiBase = QA;
+      } else {
+        creditiBase = Math.max(1, A + (QA - QB));
+      }
+      crediti = creditiBase;
+      formula = `Formula normale → C = ${crediti}`;
+      const canBuy = crediti >= 30;
+      const steps = [
+        `Calcolo con formula normale (come svincolo normale)`,
+        A >= QA ? `A ≥ QA → C = QA = ${QA}` : `A < QA → C = A + (QA−QB) = ${crediti}`,
+        canBuy
+          ? `✅ Crediti (${crediti}) ≥ 30 → puoi prelevare subito uno svincolato!`
+          : `ℹ️ Crediti (${crediti}) < 30 → acquisto svincolato immediato non disponibile`
+      ];
+      note = canBuy ? `🎉 Con ${crediti} crediti hai diritto a prelevare immediatamente un giocatore dalla lista svincolati!` : null;
+      setStep(steps, canBuy ? 2 : 2);
+    }
+
+    showResult(crediti, formula, note);
+  }
+
+  // Init
+  updateResult();
+</script>
+
 </body>
 </html>
